@@ -1,0 +1,140 @@
+# depslib dependency file v1.0
+1451572186 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\emotiondetector.cpp
+	"EmotionDetector.h"
+	"Visualizer.h"
+	"FileStream.h"
+	"FacialLandmarkDetector.h"
+	"DlibFacialLandmarkDetector.h"
+	"ModelRegistrator.h"
+	"SimpleModelRegistrator.h"
+	"DimentionalityReducer.h"
+	"PCADimentionalityReducer.h"
+	<iostream>
+	<fstream>
+	<SFML/Graphics.hpp>
+	<dlib/image_processing.h>
+	<dlib/image_io.h>
+
+1451505830 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\emotiondetector.h
+	<vector>
+	<list>
+	<iostream>
+	<SFML/Graphics.hpp>
+	"Emotion.h"
+	"Space.h"
+	"ModelRegistrator.h"
+	"DimentionalityReducer.h"
+
+1447624252 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\emotion.h
+
+1447711732 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\space.h
+	<iostream>
+	<list>
+	<vector>
+
+1447711824 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\space.cpp
+	"Space.h"
+
+1449401496 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\facetracklib.h
+	<objbase.h>
+	<windows.h>
+
+1447713422 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\transformationcreator.cpp
+	"TransformationCreator.h"
+
+1447703878 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\transformationcreator.h
+	<vector>
+	<list>
+	"Transformation.h"
+
+1447703623 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\transformation.h
+
+1447703623 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\transformation.cpp
+	"Transformation.h"
+
+1451508578 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\visualizer.cpp
+	<iostream>
+	<SFML/Graphics.hpp>
+	<SFML/Window.hpp>
+	"Visualizer.h"
+
+1451051972 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\visualizer.h
+	<iostream>
+	<SFML/Graphics.hpp>
+	<list>
+
+1450207987 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\filestream.cpp
+	"FileStream.h"
+
+1450207951 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\filestream.h
+	<SFML/System.hpp>
+	<string>
+	<cstdio>
+
+1451044968 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\dlibfaciallandmarkdetector.cpp
+	"DlibFacialLandmarkDetector.h"
+	<dlib/image_processing.h>
+	<dlib/image_io.h>
+	<dlib/image_processing/frontal_face_detector.h>
+	<dlib/geometry.h>
+
+1451044888 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\dlibfaciallandmarkdetector.h
+	<FacialLandmarkDetector.h>
+	<dlib/image_processing.h>
+	<dlib/image_io.h>
+	<dlib/image_processing/frontal_face_detector.h>
+
+1451044901 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\faciallandmarkdetector.h
+	<list>
+	<vector>
+	<SFML/Graphics.hpp>
+	<dlib/image_processing.h>
+	<dlib/image_io.h>
+
+1451332370 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\dimentionalityreducer.cpp
+	"DimentionalityReducer.h"
+
+1451509479 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\dimentionalityreducer.h
+	<list>
+	<vector>
+
+1451334219 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\modelregistrator.cpp
+	"ModelRegistrator.h"
+
+1451337870 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\modelregistrator.h
+	<list>
+	<vector>
+
+1451337242 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\simplemodelregistrator.h
+	<ModelRegistrator.h>
+
+1451335841 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\icpmodelregistrator.cpp
+	"ICPModelRegistrator.h"
+
+1451335841 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\icpmodelregistrator.h
+	<ModelRegistrator.h>
+
+1451342037 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\simplemodelregistrator.cpp
+	"SimpleModelRegistrator.h"
+	<iostream>
+
+1451569075 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\pcadimentionalityreducer.cpp
+	"PCADimentionalityReducer.h"
+	"Translator.h"
+	<opencv/cv.h>
+	<iostream>
+
+1451509505 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\pcadimentionalityreducer.h
+	<DimentionalityReducer.h>
+	<opencv/cv.h>
+
+1451568525 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\translator.cpp
+	"Translator.h"
+	<opencv/cv.h>
+	<iostream>
+
+1451565337 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\translator.h
+	<opencv/cv.h>
+	<list>
+	<vector>
+
