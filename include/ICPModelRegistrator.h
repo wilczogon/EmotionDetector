@@ -8,7 +8,8 @@ class ICPModelRegistrator : public ModelRegistrator
 {
     public:
         ICPModelRegistrator();
-        virtual ~ICPModelRegistrator();
+        ~ICPModelRegistrator();
+        std::list<std::vector<float> > registerModel(std::list<std::vector<float> > basicModel, std::list<std::vector<float> > registeredModel);
     protected:
     private:
 };

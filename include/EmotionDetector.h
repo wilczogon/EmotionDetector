@@ -16,7 +16,7 @@ class EmotionDetector
     public:
         EmotionDetector(ModelRegistrator* registrator, DimentionalityReducer* reducer);
         virtual ~EmotionDetector();
-        std::vector<float> countDifference(std::list<std::vector<float> > &basicFaceExpression, std::list<std::vector<float> > &specialFaceExpression);
+        std::vector<float> countDifference(std::list<std::vector<float> > basicFaceExpression, std::list<std::vector<float> > specialFaceExpression);
         Space* createSpaceOfDifferences(std::list<std::vector<float> > differences, std::list<Emotion> emotions);
     protected:
     private:

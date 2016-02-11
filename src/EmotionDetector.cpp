@@ -27,12 +27,9 @@ EmotionDetector::~EmotionDetector()
     //dtor
 }
 
-std::vector<float> EmotionDetector::countDifference(std::list<std::vector<float> > &basicFaceExpression, std::list<std::vector<float> > &specialFaceExpression){
+std::vector<float> EmotionDetector::countDifference(std::list<std::vector<float> > basicFaceExpression, std::list<std::vector<float> > specialFaceExpression){
 
-    int basicPointCount = basicFaceExpression.size();
-    int expressionPointCount = specialFaceExpression.size();
-
-    if(basicPointCount != expressionPointCount){
+    if(basicFaceExpression.size() != specialFaceExpression.size()){
         throw "Not equal number of points";
     }
 
@@ -44,17 +41,17 @@ std::vector<float> EmotionDetector::countDifference(std::list<std::vector<float>
         basicIt != basicFaceExpression.end(), expIt != specialFaceExpression.end();
         ++basicIt, ++expIt){
 
-            if((*basicIt).size()!=(*expIt).size()){
+            if((*basicIt).size()!=(*expIt).size())
                 throw "Points with different numbers of coordinates";
-            }
+
+            if((*basicIt).size() < 1 || (*expIt).size() < 1)
+                throw "Zero size points.";
     }
 
     basicFaceExpression = registrator->registerModel(specialFaceExpression, basicFaceExpression);
 
-    std::cout << "After registration\n";
-
     for(basicIt = basicFaceExpression.begin(), expIt = specialFaceExpression.begin();
-        basicIt != basicFaceExpression.end(), expIt != specialFaceExpression.end();
+        basicIt != basicFaceExpression.end() || expIt != specialFaceExpression.end();
         ++basicIt, ++expIt){
 
             for(unsigned int i = 0; i<(*basicIt).size(); ++i){

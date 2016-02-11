@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1452360442 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\emotiondetector.cpp
+1455226523 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\emotiondetector.cpp
 	"EmotionDetector.h"
 	"Visualizer.h"
 	"FileStream.h"
@@ -15,7 +15,7 @@
 	<dlib/image_processing.h>
 	<dlib/image_io.h>
 
-1451505830 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\emotiondetector.h
+1455224840 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\emotiondetector.h
 	<vector>
 	<list>
 	<iostream>
@@ -101,17 +101,17 @@
 1451334219 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\modelregistrator.cpp
 	"ModelRegistrator.h"
 
-1451337870 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\modelregistrator.h
+1455226766 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\modelregistrator.h
 	<list>
 	<vector>
 
 1451337242 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\simplemodelregistrator.h
 	<ModelRegistrator.h>
 
-1451335841 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\icpmodelregistrator.cpp
+1455226797 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\icpmodelregistrator.cpp
 	"ICPModelRegistrator.h"
 
-1451335841 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\icpmodelregistrator.h
+1455226769 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\icpmodelregistrator.h
 	<ModelRegistrator.h>
 
 1451342037 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\simplemodelregistrator.cpp
@@ -137,4 +137,17 @@
 	<opencv/cv.h>
 	<list>
 	<vector>
+
+1455223268 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\main.cpp
+	<iostream>
+	<list>
+	<map>
+	<FacialLandmarkDetector.h>
+	<DlibFacialLandmarkDetector.h>
+	<EmotionDetector.h>
+	<ModelRegistrator.h>
+	<ICPModelRegistrator.h>
+	<DimentionalityReducer.h>
+	<PCADimentionalityReducer.h>
+	<sys/stat.h>
 
