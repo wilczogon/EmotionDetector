@@ -18,12 +18,12 @@ PCADimentionalityReducer::~PCADimentionalityReducer()
 void PCADimentionalityReducer::initialize(std::list<std::vector<float> > data, int dimensionsNo){
     this->dimensionsNo = dimensionsNo;
 
-    for(std::vector<float> &vec: data)
+    /*for(std::vector<float> &vec: data)
         for(float &f: vec)
             std::cout << f << " ";
-    std::cout << std::endl;
+    std::cout << std::endl;*/
 
-    std::cout << "Size of Mat: " << Translator::listOfFloatVectorsToMat(data).rows << " " << Translator::listOfFloatVectorsToMat(data).cols << "\n";
+    std::cout << "Size of initial matrix, rows: " << Translator::listOfFloatVectorsToMat(data).rows << ", columns: " << Translator::listOfFloatVectorsToMat(data).cols << "\n";
     pca = PCA(Translator::listOfFloatVectorsToMat(data), Mat(), CV_PCA_DATA_AS_ROW, dimensionsNo);
 }
 
@@ -35,13 +35,14 @@ std::list<std::vector<float> > PCADimentionalityReducer::reduceDimentionality(st
         Mat vec = dataMat.row(i);
 
         Mat res = pca.project(vec);
-        std::cout << "Size of Mat(res): " << res.rows << " " << res.cols << "\n";
         if(res.cols != dimensionsNo)
             throw "PCA cannot reduce dimentionality. Probably too few samples.";
         std::vector<float> v;
         res.copyTo(v);
         result.push_back(v);
     }
+
+    std::cout << "Size of final matrix, rows: " << result.size() << ", columns: " << (*result.begin()).size() << "\n";
 
     return result;
 }

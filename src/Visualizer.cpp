@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include "Visualizer.h"
+#include <Translator.h>
 
 Visualizer::Visualizer()
 {
@@ -67,9 +68,9 @@ void Visualizer::visualizeClusters(std::string title, std::list<std::vector<floa
 
     sf::CircleShape point(1);
     sf::RectangleShape line(sf::Vector2f(width, 1));
-    line.setFillColor(sf::Color::Black);
+    line.setFillColor(sf::Color::White);
     sf::RectangleShape line2(sf::Vector2f(1, height));
-    line2.setFillColor(sf::Color::Black);
+    line2.setFillColor(sf::Color::White);
 
     window.setFramerateLimit( 1 );
 
@@ -83,9 +84,8 @@ void Visualizer::visualizeClusters(std::string title, std::list<std::vector<floa
                 program_running = false;
         }
 
-        window.clear(sf::Color::White);
+        window.clear(sf::Color::Black);
 
-        std::cout << "Dim: " << dim << std::endl;
         //draw boxes
         for(int i = 1; i<dim; ++i){
 
@@ -130,6 +130,10 @@ void Visualizer::visualizeClusters(std::string title, std::list<std::vector<floa
 
         window.display();
     }
+}
+
+void Visualizer::visualize(std::string title, Space* space, sf::Color(*func)(void*), int width, int height){
+    visualizeClusters(title, space->getVectors(), Translator::classesToColors(space->getClasses(), func), width, height);
 }
 
 void Visualizer::addPoint(sf::Vector2f position, sf::Color color){

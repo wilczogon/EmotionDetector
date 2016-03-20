@@ -48,3 +48,12 @@ std::list<std::vector<float> > Translator::arrayOfFloatsToListOfFloatVectors(flo
     return res;
 }
 
+std::list<sf::Color> Translator::classesToColors(std::list<void*> classes, sf::Color(*func)(void*)){
+    std::list<sf::Color> colors;
+
+    for(auto classPoint: classes)
+        colors.push_back(func(classPoint));
+
+    return colors;
+}
+

@@ -73,8 +73,11 @@ Space* EmotionDetector::createSpaceOfDifferences(std::list<std::vector<float> > 
 
     std::list<void*> data;
     std::list<Emotion>::iterator iter;
-    for(iter = emotions.begin(); iter != emotions.end(); ++iter)
-        data.push_back((void*)(*iter));
+    for(iter = emotions.begin(); iter != emotions.end(); ++iter){
+        int* emotionInt = new int[1];
+        emotionInt[0] = (*iter);
+        data.push_back(emotionInt);
+    }
 
     return new Space(reducer->reduceDimentionality(differences), data);
 }

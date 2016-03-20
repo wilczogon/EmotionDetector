@@ -34,6 +34,7 @@
 			<Add option="-std=c++11" />
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="include/AdaBoostDimentionalityReducer.h" />
 		<Unit filename="include/DimentionalityReducer.h" />
 		<Unit filename="include/DlibFacialLandmarkDetector.h" />
 		<Unit filename="include/Emotion.h" />
@@ -47,6 +48,7 @@
 		<Unit filename="include/Space.h" />
 		<Unit filename="include/Translator.h" />
 		<Unit filename="include/Visualizer.h" />
+		<Unit filename="src/AdaBoostDimentionalityReducer.cpp" />
 		<Unit filename="src/DimentionalityReducer.cpp" />
 		<Unit filename="src/DlibFacialLandmarkDetector.cpp" />
 		<Unit filename="src/EmotionDetector.cpp" />

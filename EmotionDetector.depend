@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1455226523 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\emotiondetector.cpp
+1458060180 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\emotiondetector.cpp
 	"EmotionDetector.h"
 	"Visualizer.h"
 	"FileStream.h"
@@ -25,14 +25,14 @@
 	"ModelRegistrator.h"
 	"DimentionalityReducer.h"
 
-1447624252 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\emotion.h
+1457827150 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\emotion.h
 
-1447711732 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\space.h
+1458032975 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\space.h
 	<iostream>
 	<list>
 	<vector>
 
-1447711824 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\space.cpp
+1458033171 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\space.cpp
 	"Space.h"
 
 1449401496 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\facetracklib.h
@@ -52,16 +52,18 @@
 1447703623 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\transformation.cpp
 	"Transformation.h"
 
-1451508578 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\visualizer.cpp
+1458060559 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\visualizer.cpp
 	<iostream>
 	<SFML/Graphics.hpp>
 	<SFML/Window.hpp>
 	"Visualizer.h"
+	<Translator.h>
 
-1451051972 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\visualizer.h
+1458034366 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\visualizer.h
 	<iostream>
 	<SFML/Graphics.hpp>
 	<list>
+	<Space.h>
 
 1450207987 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\filestream.cpp
 	"FileStream.h"
@@ -118,7 +120,7 @@
 	"SimpleModelRegistrator.h"
 	<iostream>
 
-1451569075 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\pcadimentionalityreducer.cpp
+1458035001 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\pcadimentionalityreducer.cpp
 	"PCADimentionalityReducer.h"
 	"Translator.h"
 	<opencv/cv.h>
@@ -128,17 +130,18 @@
 	<DimentionalityReducer.h>
 	<opencv/cv.h>
 
-1451568525 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\translator.cpp
+1458034328 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\translator.cpp
 	"Translator.h"
 	<opencv/cv.h>
 	<iostream>
 
-1451565337 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\translator.h
+1458034263 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\translator.h
 	<opencv/cv.h>
 	<list>
 	<vector>
+	<SFML/Graphics.hpp>
 
-1455223268 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\main.cpp
+1458060831 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\main.cpp
 	<iostream>
 	<list>
 	<map>
@@ -150,4 +153,6 @@
 	<DimentionalityReducer.h>
 	<PCADimentionalityReducer.h>
 	<sys/stat.h>
+	<Visualizer.h>
+	<SFML/Graphics.hpp>
 

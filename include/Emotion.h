@@ -6,7 +6,8 @@ enum Emotion
     neutral = 0,
     smiling = 1,
     sad = 2,
-    angry = 3
+    angry = 3,
+    surprised = 4
 };
 
 #endif // EMOTION_H

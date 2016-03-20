@@ -5,7 +5,8 @@ Space::Space(std::string fileName){
 }
 
 Space::Space(std::list<std::vector<float> > vecs, std::list<void*> classes){
-    //TODO
+    this->vecs = vecs;
+    this->classes = classes;
 }
 
 void Space::add(std::vector<float> vec, void* attribute){
@@ -18,6 +19,14 @@ void Space::save(std::string fileName){
 
 void* Space::knn(std::vector<float> vec, int k){
     //TODO
+}
+
+std::list<std::vector<float> > Space::getVectors(){
+    return vecs;
+}
+
+std::list<void*> Space::getClasses(){
+    return classes;
 }
 
 Space::~Space()
