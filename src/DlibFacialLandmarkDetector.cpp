@@ -3,6 +3,11 @@
 #include <dlib/image_io.h>
 #include <dlib/image_processing/frontal_face_detector.h>
 #include <dlib/geometry.h>
+#include <dlib/opencv.h>
+#include <png.h>
+#include <opencv2/core.hpp>
+
+using namespace cv;
 
 DlibFacialLandmarkDetector::DlibFacialLandmarkDetector()
 {
@@ -15,13 +20,8 @@ DlibFacialLandmarkDetector::~DlibFacialLandmarkDetector()
     //dtor
 }
 
-std::list<std::list<std::vector<float> > > DlibFacialLandmarkDetector::getFacesPoints(string imageName){
-    array2d<rgb_pixel> img;
-    load_image(img, imageName);
-    return getFacesPoints(img);
-}
-
-std::list<std::list<std::vector<float> > > DlibFacialLandmarkDetector::getFacesPoints(array2d<rgb_pixel> &image/*, array2d<float> depth*/){
+std::list<std::list<std::vector<float> > > DlibFacialLandmarkDetector::getFacesPoints(Mat opencvImage){
+    dlib::cv_image<dlib::bgr_pixel> image(opencvImage);
     std::list<std::list<std::vector<float> > > result;
     //pyramid_up(image);
     std::vector<rectangle> dets = detector(image);

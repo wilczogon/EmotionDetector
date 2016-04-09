@@ -11,19 +11,25 @@
 #include <sys/stat.h>
 #include <Visualizer.h>
 #include <SFML/Graphics.hpp>
+#include <png.h>
+#include <opencv2/core.hpp>
+#include <opencv2/imgcodecs.hpp>
+#include <opencv/highgui.h>
 
-std::string SMILING = "smiling",
+using namespace cv;
+
+std::string HAPPY = "happy",
             NEUTRAL = "neutral",
             SAD = "sad",
             SURPRISED = "surprised",
             ANGRY = "angry";
 
-std::list<std::string> listOfEmotions = {SMILING, NEUTRAL, SAD, SURPRISED, ANGRY};
+std::list<std::string> listOfEmotions = {HAPPY, NEUTRAL, SAD, SURPRISED, ANGRY};
 
 sf::Color emotionToColor(void* classPoint){
     Emotion emotion = (Emotion)(*((int*)classPoint));
 
-    if(emotion == Emotion::smiling)
+    if(emotion == Emotion::happy)
         return sf::Color::Green;
     else if(emotion == Emotion::neutral)
         return sf::Color::Yellow;
@@ -38,8 +44,8 @@ sf::Color emotionToColor(void* classPoint){
 }
 
 Emotion toEmotion(std::string name){
-    if(name == SMILING)
-        return smiling;
+    if(name == HAPPY)
+        return happy;
     else if(name == NEUTRAL)
         return neutral;
     else if(name == SAD)
@@ -61,6 +67,10 @@ bool fileExists(std::string fileName){
     return false;
 }
 
+Mat readImage(const char* imageFile){
+    return imread(String(imageFile), CV_LOAD_IMAGE_ANYCOLOR | CV_LOAD_IMAGE_ANYDEPTH);
+}
+
 std::map<std::string, std::map<std::string, std::list<std::list<std::vector<float> > > > > load(FacialLandmarkDetector* fdet,std::string path, std::list<std::string> emotionIds, std::list<std::string> personIds, std::string separator = " ", std::string extension = "png"){
     std::map<std::string, std::map<std::string, std::list<std::list<std::vector<float> > > > > emotionPersonDataMap;
 
@@ -72,9 +82,9 @@ std::map<std::string, std::map<std::string, std::list<std::list<std::vector<floa
             std::string filePath = path + "/" + emotionId + separator + personId + "." + extension;
             if(fileExists(filePath)){
                 std::cout << "Processing: " << filePath << std::endl;
-                std::list<std::list<std::vector<float> > > tmp = fdet->getFacesPoints(filePath);
+                std::list<std::list<std::vector<float> > > tmp = fdet->getFacesPoints(readImage(filePath.c_str()));
                 if(tmp.size() >= 1){
-                    std::cout << "Face points retrieved." << std::endl;
+                    std::cout << "Face points retrieved. (" << tmp.size() << " x " << (*tmp.begin()).size() << ")" << std::endl;
                     emotionPersonDataMap[emotionId][personId].push_back((*tmp.begin()));
                 }
             }
@@ -84,14 +94,15 @@ std::map<std::string, std::map<std::string, std::list<std::list<std::vector<floa
                 if(!fileExists(filePath))
                     break;
                 std::cout << "Processing: " << filePath << std::endl;
-                std::list<std::list<std::vector<float> > > tmp = fdet->getFacesPoints(filePath);
+                std::list<std::list<std::vector<float> > > tmp = fdet->getFacesPoints(readImage(filePath.c_str()));
                 if(tmp.size() >= 1){
-                    std::cout << "Face points retrieved." << std::endl;
+                    std::cout << "Face points retrieved. (" << tmp.size() << " x " << (*tmp.begin()).size() << ")" << std::endl;
                     emotionPersonDataMap[emotionId][personId].push_back((*tmp.begin()));
                 }
             }
         }
     }
+
     return emotionPersonDataMap;
 }
 
@@ -127,16 +138,13 @@ std::list<std::vector<float> > countDifference(std::map<std::string, std::map<st
 int main(){
     try{
         FacialLandmarkDetector* fdet = new DlibFacialLandmarkDetector();
-        ModelRegistrator* registrator = new ICPModelRegistrator();
-        DimentionalityReducer* reducer = new PCADimentionalityReducer();
-        EmotionDetector* detector = new EmotionDetector(registrator, reducer);
+        EmotionDetector* detector = new EmotionDetector(new ICPModelRegistrator(), new PCADimentionalityReducer());
 
         std::cout << "\nAll classes successfully initialized.\n";
 
-        std::list<std::string> personIds;
-        personIds.push_back("mp");
+        std::list<std::string> personIds = {"a", "b", "c", "d", "e", "f", "g"};
 
-        std::map<std::string, std::map<std::string, std::list<std::list<std::vector<float> > > > > data = load(fdet, "C:\\Users\\Mary\\Pictures\\Picasa\\Exports\\Captured Videos", listOfEmotions, personIds, " ", "jpg");
+        std::map<std::string, std::map<std::string, std::list<std::list<std::vector<float> > > > > data = load(fdet, "C:\\Users\\Mary\\Desktop\\attachments\\colour", listOfEmotions, personIds, "_", "png");
 
         std::cout << "\nAll images successfully loaded.\n";
 
@@ -144,7 +152,7 @@ int main(){
         std::list<Emotion> emotions;
 
         for(auto emotionName: listOfEmotions){
-            std::list<std::vector<float> > tmp = countDifference(data, detector, NEUTRAL, emotionName);
+            std::list<std::vector<float> > tmp = countDifference(data, detector, SAD, emotionName);
 
             for(int i = 0; i<tmp.size(); ++i){
                 emotions.push_back(toEmotion(emotionName));

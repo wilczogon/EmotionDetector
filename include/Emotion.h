@@ -4,7 +4,7 @@
 enum Emotion
 {
     neutral = 0,
-    smiling = 1,
+    happy = 1,
     sad = 2,
     angry = 3,
     surprised = 4
