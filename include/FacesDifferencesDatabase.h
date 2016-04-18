@@ -2,25 +2,25 @@
 #define FACESDIFFERENCESDATABASE_H
 
 #include <Emotion.h>
-#include <list>
 #include <map>
-#include <vector>
 #include <set>
+#include <opencv2/core.hpp>
 
 class FacesDifferencesDatabase
 {
     public:
         FacesDifferencesDatabase(Emotion basicEmotion);
-        void add(Emotion emotion, std::vector<float> vec);
-        std::list<std::vector<float> > get(Emotion emotion);
+        void add(Emotion emotion, cv::Mat vec);
+        cv::Mat get(Emotion emotion);
         std::set<Emotion> getEmotions();
         Emotion getBasicEmotion();
+        void getData(cv::Mat& samples, cv::Mat& responses);
         virtual ~FacesDifferencesDatabase();
     protected:
     private:
         Emotion basicEmotion;
         std::set<Emotion> emotions;
-        std::map<Emotion, std::list<std::vector<float> > > data;
+        std::map<Emotion, cv::Mat > data;
 };
 
 #endif // FACESDIFFERENCESDATABASE_H

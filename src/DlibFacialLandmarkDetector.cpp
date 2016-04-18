@@ -4,8 +4,9 @@
 #include <dlib/image_processing/frontal_face_detector.h>
 #include <dlib/geometry.h>
 #include <dlib/opencv.h>
-#include <png.h>
+//#include <png.h>
 #include <opencv2/core.hpp>
+#include <Translator.h>
 
 using namespace cv;
 
@@ -20,9 +21,9 @@ DlibFacialLandmarkDetector::~DlibFacialLandmarkDetector()
     //dtor
 }
 
-std::list<std::list<std::vector<float> > > DlibFacialLandmarkDetector::getFacesPoints(Mat opencvImage){
+std::list<cv::Mat> DlibFacialLandmarkDetector::getFacesPoints(Mat opencvImage){
     dlib::cv_image<dlib::bgr_pixel> image(opencvImage);
-    std::list<std::list<std::vector<float> > > result;
+    std::list<cv::Mat> result;
     //pyramid_up(image);
     std::vector<rectangle> dets = detector(image);
 
@@ -36,7 +37,7 @@ std::list<std::list<std::vector<float> > > DlibFacialLandmarkDetector::getFacesP
             facePoints.push_back(point);
         }
 
-        result.push_back(facePoints);
+        result.push_back(Translator::listOfFloatVectorsToMat(facePoints));
     }
 
     return result;

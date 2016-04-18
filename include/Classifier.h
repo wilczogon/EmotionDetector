@@ -1,9 +1,9 @@
 #ifndef CLASSIFIER_H
 #define CLASSIFIER_H
-#include <list>
-#include <vector>
+
 #include <Emotion.h>
 #include <FacesDifferencesDatabase.h>
+#include <opencv2/core.hpp>
 
 class Classifier
 {
@@ -11,7 +11,7 @@ class Classifier
         Classifier(){};
         virtual ~Classifier(){};
         virtual void initialize(FacesDifferencesDatabase* database) = 0;
-        virtual Emotion classify(std::vector<float> vec) = 0;
+        virtual Emotion classify(cv::Mat vec) = 0;
     protected:
     private:
 };

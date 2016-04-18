@@ -15,12 +15,6 @@ PCADimentionalityReducer::~PCADimentionalityReducer()
 }
 
 void PCADimentionalityReducer::initialize(std::list<std::vector<float> > data){
-
-    /*for(std::vector<float> &vec: data)
-        for(float &f: vec)
-            std::cout << f << " ";
-    std::cout << std::endl;*/
-
     std::cout << "Size of initial matrix, rows: " << Translator::listOfFloatVectorsToMat(data).rows << ", columns: " << Translator::listOfFloatVectorsToMat(data).cols << "\n";
     pca = PCA(Translator::listOfFloatVectorsToMat(data), Mat(), CV_PCA_DATA_AS_ROW, dimensionsNo);
 }

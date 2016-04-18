@@ -11,11 +11,8 @@ SimpleModelRegistrator::~SimpleModelRegistrator()
     //dtor
 }
 
-std::list<std::vector<float> > SimpleModelRegistrator::registerModel(std::list<std::vector<float> > basicModel, std::list<std::vector<float> > registeredModel){
+/*std::list<std::vector<float> > SimpleModelRegistrator::registerModel(std::list<std::vector<float> > basicModel, std::list<std::vector<float> > registeredModel){
     float actualError = maxError+1;
-    /*while(actualError > maxError){ //TODO
-
-    }*/
 
     std::vector<float> mean((*basicModel.begin()).size(), 0);
     std::vector<float> basicMax((*basicModel.begin()).size(), 0);
@@ -77,3 +74,4 @@ std::list<std::vector<float> > SimpleModelRegistrator::registerModel(std::list<s
 
     return result;
 }
+*/

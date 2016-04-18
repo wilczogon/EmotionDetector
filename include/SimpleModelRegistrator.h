@@ -2,6 +2,7 @@
 #define SIMPLEMODELREGISTRATOR_H
 
 #include <ModelRegistrator.h>
+#include <opencv2/core.hpp>
 
 
 class SimpleModelRegistrator : public ModelRegistrator
@@ -9,7 +10,7 @@ class SimpleModelRegistrator : public ModelRegistrator
     public:
         SimpleModelRegistrator(float maxError);
         virtual ~SimpleModelRegistrator();
-        virtual std::list<std::vector<float> > registerModel(std::list<std::vector<float> > basicModel, std::list<std::vector<float> > registeredModel);
+        virtual cv::Mat registerModel(cv::Mat basicModel, cv::Mat registeredModel){};
     protected:
     private:
         float maxError;

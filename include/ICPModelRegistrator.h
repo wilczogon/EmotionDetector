@@ -2,6 +2,7 @@
 #define ICPMODELREGISTRATOR_H
 
 #include <ModelRegistrator.h>
+#include <opencv2/core.hpp>
 
 
 class ICPModelRegistrator : public ModelRegistrator
@@ -9,7 +10,7 @@ class ICPModelRegistrator : public ModelRegistrator
     public:
         ICPModelRegistrator();
         ~ICPModelRegistrator();
-        std::list<std::vector<float> > registerModel(std::list<std::vector<float> > basicModel, std::list<std::vector<float> > registeredModel);
+        cv::Mat registerModel(cv::Mat basicModel, cv::Mat registeredModel);
     protected:
     private:
 };

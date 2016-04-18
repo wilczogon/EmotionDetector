@@ -1,19 +1,10 @@
 #include "EmotionDetector.h"
 #include "Visualizer.h"
-#include "FileStream.h"
 #include "FacialLandmarkDetector.h"
-#include "DlibFacialLandmarkDetector.h"
 #include "ModelRegistrator.h"
-#include "SimpleModelRegistrator.h"
-#include "DimentionalityReducer.h"
-#include "PCADimentionalityReducer.h"
 #include <iostream>
-#include <fstream>
-#include <SFML/Graphics.hpp>
-#include <dlib/image_processing.h>
-#include <dlib/image_io.h>
+#include <opencv2/core.hpp>
 
-using namespace dlib;
 using namespace std;
 
 EmotionDetector::EmotionDetector(ModelRegistrator* registrator, Classifier* classifier)
@@ -27,42 +18,12 @@ EmotionDetector::~EmotionDetector()
     //dtor
 }
 
-std::vector<float> EmotionDetector::countDifference(std::list<std::vector<float> > basicFaceExpression, std::list<std::vector<float> > specialFaceExpression){
-
-    if(basicFaceExpression.size() != specialFaceExpression.size()){
-        throw "Not equal number of points";
-    }
-
-    std::vector<float> result;
-    std::list<std::vector<float> >::iterator basicIt;
-    std::list<std::vector<float> >::iterator expIt;
-
-    for(basicIt = basicFaceExpression.begin(), expIt = specialFaceExpression.begin();
-        basicIt != basicFaceExpression.end(), expIt != specialFaceExpression.end();
-        ++basicIt, ++expIt){
-
-            if((*basicIt).size()!=(*expIt).size())
-                throw "Points with different numbers of coordinates";
-
-            if((*basicIt).size() < 1 || (*expIt).size() < 1)
-                throw "Zero size points.";
-    }
-
-    basicFaceExpression = registrator->registerModel(specialFaceExpression, basicFaceExpression);
-
-    for(basicIt = basicFaceExpression.begin(), expIt = specialFaceExpression.begin();
-        basicIt != basicFaceExpression.end() || expIt != specialFaceExpression.end();
-        ++basicIt, ++expIt){
-
-            for(unsigned int i = 0; i<(*basicIt).size(); ++i){
-                result.push_back((*expIt)[i] - (*basicIt)[i]);
-            }
-    }
-
+cv::Mat EmotionDetector::countDifference(cv::Mat basicFaceExpression, cv::Mat specialFaceExpression){
+    cv::Mat result;
+    cv::Mat registeredFaceExpression = registrator->registerModel(basicFaceExpression, specialFaceExpression);
+    cv::subtract(registeredFaceExpression, basicFaceExpression, result);
     //TODO colors?
-
-    return result;
-
+    return result.reshape(0, 1);
 }
 
 /*Space* EmotionDetector::createSpaceOfDifferences(std::list<std::vector<float> > differences, std::list<Emotion> emotions){
@@ -84,9 +45,10 @@ std::vector<float> EmotionDetector::countDifference(std::list<std::vector<float>
 
 void EmotionDetector::initialize(FacesImagesDatabase* database, Emotion basicEmotion){
     diffs = prepareDiffs(database, basicEmotion);
+    classifier->initialize(diffs);
 }
 
-Emotion EmotionDetector::classify(std::list<std::vector<float> > basicExpression, std::list<std::vector<float> > specialExpression){
+Emotion EmotionDetector::classify(cv::Mat basicExpression, cv::Mat specialExpression){
     return classifier->classify(countDifference(basicExpression, specialExpression));
 }
 
@@ -97,16 +59,18 @@ float EmotionDetector::test(FacesImagesDatabase* testDatabase, bool loggingOn){
     FacesDifferencesDatabase* testDiffs = prepareDiffs(testDatabase, diffs->getBasicEmotion());
 
     for(auto emotion: testDiffs->getEmotions())
-        for(auto diff: testDiffs->get(emotion))
+        for(int rowNo = 0; rowNo < testDiffs->get(emotion).rows; ++rowNo){
+            cv::Mat diff = testDiffs->get(emotion).row(rowNo);
             if(classifier->classify(diff) == emotion)
                 correctlyClassified++;
             else
                 incorrectlyClassified++;
+        }
 
     float result = incorrectlyClassified/float(correctlyClassified + incorrectlyClassified);
 
     if(loggingOn)
-        std::cout << "Correctly classified elements: " << correctlyClassified << std::endl << "Incorrectly classified elements: " << incorrectlyClassified << std::endl << "Error: " << result << std::endl;
+        std::cout << "Correctly classified elements: " << correctlyClassified << std::endl << "Incorrectly classified elements: " << incorrectlyClassified << std::endl << "Error: " << result*100 << "%" << std::endl;
 
     return result;
 }
@@ -125,6 +89,13 @@ FacesDifferencesDatabase* EmotionDetector::prepareDiffs(FacesImagesDatabase* dat
             for(auto specialData: database->get(personId, emotion))
                 for(auto basicData: database->get(personId, basicEmotion))
                     diffs->add(emotion, countDifference(basicData, specialData));
+            /*for(int specialDataRowNo = 0; specialDataRowNo < database->get(personId, emotion).rows; ++specialDataRowNo){
+                cv::Mat specialData = database->get(personId, emotion).row(specialDataRowNo);
+                for(int basicDataRowNo = 0; basicDataRowNo < database->get(personId, basicEmotion).rows; ++basicDataRowNo){
+                    cv::Mat basicData = database->get(personId, basicEmotion).row(basicDataRowNo);
+                    diffs->add(emotion, countDifference(basicData, specialData));
+                }
+            }*/
 
     return diffs;
 }

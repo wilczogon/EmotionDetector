@@ -2,8 +2,6 @@
 
 #ifndef EMOTIONDETECTOR_H
 #define EMOTIONDETECTOR_H
-#include <vector>
-#include <list>
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "Emotion.h"
@@ -12,6 +10,8 @@
 #include <Classifier.h>
 #include <FacesImagesDatabase.h>
 #include <FacesDifferencesDatabase.h>
+#include <opencv2/core.hpp>
+
 
 class EmotionDetector
 {
@@ -19,12 +19,12 @@ class EmotionDetector
         EmotionDetector(ModelRegistrator* registrator, Classifier* classifier);
         virtual ~EmotionDetector();
         void initialize(FacesImagesDatabase* database, Emotion basicEmotion);
-        Emotion classify(std::list<std::vector<float> > basicExpression, std::list<std::vector<float> > specialExpression);
+        Emotion classify(cv::Mat basicExpression, cv::Mat specialExpression);
         float test(FacesImagesDatabase* testDatabase, bool loggingOn);
         //Space* createSpaceOfDifferences(std::list<std::vector<float> > differences, std::list<Emotion> emotions);
     protected:
     private:
-        std::vector<float> countDifference(std::list<std::vector<float> > basicFaceExpression, std::list<std::vector<float> > specialFaceExpression);
+        cv::Mat countDifference(cv::Mat basicFaceExpression, cv::Mat specialFaceExpression);
         FacesDifferencesDatabase* prepareDiffs(FacesImagesDatabase* database, Emotion basicEmotion);
         ModelRegistrator* registrator;
         Classifier* classifier;

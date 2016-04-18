@@ -15,7 +15,7 @@ class FacialLandmarkDetector
     public:
         FacialLandmarkDetector(){}
         virtual ~FacialLandmarkDetector(){}
-        virtual std::list<std::list<std::vector<float> > > getFacesPoints(cv::Mat opencvImage) = 0;
+        virtual std::list<cv::Mat> getFacesPoints(cv::Mat opencvImage) = 0;
     protected:
     private:
 };

@@ -10,6 +10,6 @@ ICPModelRegistrator::~ICPModelRegistrator()
     //dtor
 }
 
-std::list<std::vector<float> > ICPModelRegistrator::registerModel(std::list<std::vector<float> > basicModel, std::list<std::vector<float> > registeredModel){
+cv::Mat ICPModelRegistrator::registerModel(cv::Mat basicModel, cv::Mat registeredModel){
     return registeredModel; //TODO
 }

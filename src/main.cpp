@@ -10,7 +10,7 @@
 #include <PCADimentionalityReducer.h>
 #include <FacesDifferencesDatabase.h>
 #include <FacesImagesDatabase.h>
-#include <ReduceKnnClassifier.h>
+#include <AdaBoostClassifier.h>
 #include <sys/stat.h>
 #include <Visualizer.h>
 #include <SFML/Graphics.hpp>
@@ -98,7 +98,7 @@ FacesImagesDatabase* load(FacialLandmarkDetector* fdet,std::string path, std::li
             std::string filePath = path + "/" + emotionId + separator + personId + "." + extension;
             if(fileExists(filePath)){
                 std::cout << "Processing: " << filePath << std::endl;
-                std::list<std::list<std::vector<float> > > tmp = fdet->getFacesPoints(readImage(filePath.c_str()));
+                std::list<cv::Mat> tmp = fdet->getFacesPoints(readImage(filePath.c_str()));
                 if(tmp.size() >= 1){
                     std::cout << "Face points retrieved. (" << tmp.size() << " x " << (*tmp.begin()).size() << ")" << std::endl;
                     emotionPersonDataMap->add(personId, toEmotion(emotionId), *tmp.begin());
@@ -110,7 +110,7 @@ FacesImagesDatabase* load(FacialLandmarkDetector* fdet,std::string path, std::li
                 if(!fileExists(filePath))
                     break;
                 std::cout << "Processing: " << filePath << std::endl;
-                std::list<std::list<std::vector<float> > > tmp = fdet->getFacesPoints(readImage(filePath.c_str()));
+                std::list<cv::Mat> tmp = fdet->getFacesPoints(readImage(filePath.c_str()));
                 if(tmp.size() >= 1){
                     std::cout << "Face points retrieved. (" << tmp.size() << " x " << (*tmp.begin()).size() << ")" << std::endl;
                     emotionPersonDataMap->add(personId, toEmotion(emotionId), *tmp.begin());
@@ -125,17 +125,21 @@ FacesImagesDatabase* load(FacialLandmarkDetector* fdet,std::string path, std::li
 int main(){
     try{
         FacialLandmarkDetector* fdet = new DlibFacialLandmarkDetector();
-        EmotionDetector* detector = new EmotionDetector(new ICPModelRegistrator(), new ReduceKnnClassifier(new PCADimentionalityReducer(5)));
+        EmotionDetector* detector = new EmotionDetector(new ICPModelRegistrator(), new AdaBoostClassifier());
 
         std::cout << "\nAll classes successfully initialized.\n";
 
         std::list<std::string> personIds = {"a", "b", "c", "d", "e", "f", "g"};
+        std::list<std::string> testPersonIds = {"gibbs", "jack_black", "gandalf"};
 
-        FacesImagesDatabase* database = load(fdet, "C:\\Users\\Mary\\Desktop\\attachments\\colour", listOfEmotions, personIds, "_", "png");
+        //FacesImagesDatabase* database = load(fdet, "C:\\Users\\Mary\\Desktop\\attachments\\colour", listOfEmotions, personIds, "_", "png");
+        FacesImagesDatabase* testDatabase = load(fdet, "C:\\Users\\Mary\\Documents\\Mary\\9_semestr\\magisterka\\project\\test_images", listOfEmotions, testPersonIds, "_", "jpg");
+        FacesImagesDatabase* database = testDatabase;
 
         std::cout << "\nAll images successfully loaded.\n";
 
         detector->initialize(database, Emotion::sad);
+        detector->test(testDatabase, true);
 
         return 0;
     } catch(const char* msg){
