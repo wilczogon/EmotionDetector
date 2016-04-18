@@ -16,10 +16,10 @@
 using namespace dlib;
 using namespace std;
 
-EmotionDetector::EmotionDetector(ModelRegistrator* registrator, DimentionalityReducer* reducer)
+EmotionDetector::EmotionDetector(ModelRegistrator* registrator, Classifier* classifier)
 {
     this->registrator = registrator;
-    this->reducer = reducer;
+    this->classifier = classifier;
 }
 
 EmotionDetector::~EmotionDetector()
@@ -65,11 +65,11 @@ std::vector<float> EmotionDetector::countDifference(std::list<std::vector<float>
 
 }
 
-Space* EmotionDetector::createSpaceOfDifferences(std::list<std::vector<float> > differences, std::list<Emotion> emotions){
+/*Space* EmotionDetector::createSpaceOfDifferences(std::list<std::vector<float> > differences, std::list<Emotion> emotions){
     if(differences.size() != emotions.size())
         throw "Not equal number of differences and emotions";
 
-    reducer->initialize(differences, 5);
+    reducer->initialize(differences);
 
     std::list<void*> data;
     std::list<Emotion>::iterator iter;
@@ -80,60 +80,51 @@ Space* EmotionDetector::createSpaceOfDifferences(std::list<std::vector<float> > 
     }
 
     return new Space(reducer->reduceDimentionality(differences), data);
+}*/
+
+void EmotionDetector::initialize(FacesImagesDatabase* database, Emotion basicEmotion){
+    diffs = prepareDiffs(database, basicEmotion);
 }
-/*
-int main(){
-    DimentionalityReducer* reducer = new PCADimentionalityReducer();
-    ModelRegistrator* registrator = new SimpleModelRegistrator(0.5);
-    EmotionDetector* detector = new EmotionDetector(registrator, reducer);
 
-    std::string fileName = "C:\\Users\\Mary\\Documents\\Mary\\9_semestr\\magisterka\\project\\test_images\\gibbs2.jpg";
-
-    FacialLandmarkDetector* fdet = new DlibFacialLandmarkDetector();
-    std::list<std::list<std::vector<float> > > res = fdet->getFacesPoints(fileName);
-    std::list<std::list<std::vector<float> > > res2 = fdet->getFacesPoints("C:\\Users\\Mary\\Documents\\Mary\\9_semestr\\magisterka\\project\\test_images\\gibbs.jpg");
-
-    std::vector<float> diff = detector->countDifference(*res.begin(), *res2.begin());
-
-    std::list<std::vector<float> > diffs;
-    std::list<Emotion> emotions;
-    diffs.push_back(diff);
-    diffs.push_back(diff);
-    emotions.push_back(neutral);
-    emotions.push_back(sad);
-    Space* space = detector->createSpaceOfDifferences(diffs, emotions);
-
-    Visualizer* visualizer = new Visualizer();
-
-    std::list<sf::Color> colors;
-    for(Emotion &emotion: emotions){
-        colors.push_back(sf::Color(
-                                    emotion%3 == 0? 255:0,
-                                    emotion%3 == 1? 255:0,
-                                    emotion%3 == 2? 255:0
-                                   ));
-    }
-
-    visualizer->visualizeClusters("Clusters", diffs, colors, 800, 600);
-
-
-    std::list<std::vector<float> > res3 = registrator->registerModel((*res2.begin()), (*res.begin()));
-    FileStream stream;
-    stream.open("C:\\Users\\Mary\\Documents\\Mary\\9_semestr\\magisterka\\project\\test_images\\gibbs.jpg");
-
-    sf::Texture texture;
-    texture.loadFromStream(stream);
-    for(std::list<std::vector<float> > &lv : res2){
-        for(std::vector<float> &v : lv){
-            visualizer->addPoint(sf::Vector2f((int)v[0], (int)v[1]), sf::Color(255, 0, 0));
-        }
-    }
-    for(std::vector<float> &v : res3){
-        visualizer->addPoint(sf::Vector2f((int)v[0], (int)v[1]), sf::Color(255, 255, 0));
-    }
-
-    visualizer->visualize("Test", 640, 480, &texture);
-
-    return 0;
+Emotion EmotionDetector::classify(std::list<std::vector<float> > basicExpression, std::list<std::vector<float> > specialExpression){
+    return classifier->classify(countDifference(basicExpression, specialExpression));
 }
-*/
+
+float EmotionDetector::test(FacesImagesDatabase* testDatabase, bool loggingOn){
+    int correctlyClassified = 0;
+    int incorrectlyClassified = 0;
+
+    FacesDifferencesDatabase* testDiffs = prepareDiffs(testDatabase, diffs->getBasicEmotion());
+
+    for(auto emotion: testDiffs->getEmotions())
+        for(auto diff: testDiffs->get(emotion))
+            if(classifier->classify(diff) == emotion)
+                correctlyClassified++;
+            else
+                incorrectlyClassified++;
+
+    float result = incorrectlyClassified/float(correctlyClassified + incorrectlyClassified);
+
+    if(loggingOn)
+        std::cout << "Correctly classified elements: " << correctlyClassified << std::endl << "Incorrectly classified elements: " << incorrectlyClassified << std::endl << "Error: " << result << std::endl;
+
+    return result;
+}
+
+FacesDifferencesDatabase* EmotionDetector::prepareDiffs(FacesImagesDatabase* database, Emotion basicEmotion){
+    FacesDifferencesDatabase* diffs = new FacesDifferencesDatabase(basicEmotion);
+
+    if(database->getEmotions().size() == 0)
+        throw "Empty data set.";
+
+    if(database->getEmotions().find(basicEmotion) == database->getEmotions().end())
+        throw "Empty set of basic expressions.";
+
+    for(auto personId: database->getPersonIds())
+        for(auto emotion: database->getEmotions())
+            for(auto specialData: database->get(personId, emotion))
+                for(auto basicData: database->get(personId, basicEmotion))
+                    diffs->add(emotion, countDifference(basicData, specialData));
+
+    return diffs;
+}

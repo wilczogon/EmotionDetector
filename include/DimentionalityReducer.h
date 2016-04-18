@@ -7,10 +7,11 @@
 class DimentionalityReducer
 {
     public:
-        DimentionalityReducer();
+        DimentionalityReducer(int dimensionsNo);
         virtual ~DimentionalityReducer() = 0;
-        virtual void initialize(std::list<std::vector<float> > data, int dimensionsNo) = 0;
+        virtual void initialize(std::list<std::vector<float> > data) = 0;
         virtual std::list<std::vector<float> > reduceDimentionality(std::list<std::vector<float> > data) = 0;
+        virtual std::vector<float> reduceDimentionality(std::vector<float> vec) = 0;
         int getNumberOfDimensions(){return dimensionsNo;};
     protected:
         int dimensionsNo;

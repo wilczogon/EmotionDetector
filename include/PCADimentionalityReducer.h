@@ -9,10 +9,11 @@ using namespace cv;
 class PCADimentionalityReducer : public DimentionalityReducer
 {
     public:
-        PCADimentionalityReducer();
+        PCADimentionalityReducer(int dimensionsNo);
         virtual ~PCADimentionalityReducer();
-        virtual void initialize(std::list<std::vector<float> > data, int dimensionsNo);
+        virtual void initialize(std::list<std::vector<float> > data);
         virtual std::list<std::vector<float> > reduceDimentionality(std::list<std::vector<float> > data);
+        virtual std::vector<float> reduceDimentionality(std::vector<float> vec);
     protected:
     private:
         PCA pca;

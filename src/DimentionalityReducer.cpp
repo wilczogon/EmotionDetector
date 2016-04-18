@@ -1,8 +1,8 @@
 #include "DimentionalityReducer.h"
 
-DimentionalityReducer::DimentionalityReducer()
+DimentionalityReducer::DimentionalityReducer(int dimensionsNo)
 {
-    //ctor
+    this->dimensionsNo = dimensionsNo;
 }
 
 DimentionalityReducer::~DimentionalityReducer()

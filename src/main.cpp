@@ -8,6 +8,9 @@
 #include <ICPModelRegistrator.h>
 #include <DimentionalityReducer.h>
 #include <PCADimentionalityReducer.h>
+#include <FacesDifferencesDatabase.h>
+#include <FacesImagesDatabase.h>
+#include <ReduceKnnClassifier.h>
 #include <sys/stat.h>
 #include <Visualizer.h>
 #include <SFML/Graphics.hpp>
@@ -58,6 +61,21 @@ Emotion toEmotion(std::string name){
         return (Emotion)NULL;
 }
 
+std::string toString(Emotion emotion){
+    if(emotion == Emotion::happy)
+        return HAPPY;
+    else if(emotion == Emotion::neutral)
+        return NEUTRAL;
+    else if(emotion == Emotion::sad)
+        return SAD;
+    else if(emotion == Emotion::surprised)
+        return SURPRISED;
+    else if(emotion == Emotion::angry)
+        return ANGRY;
+    else
+        return (std::string)NULL;
+}
+
 bool fileExists(std::string fileName){
     struct stat buf;
     if (stat(fileName.c_str(), &buf) != -1)
@@ -71,13 +89,11 @@ Mat readImage(const char* imageFile){
     return imread(String(imageFile), CV_LOAD_IMAGE_ANYCOLOR | CV_LOAD_IMAGE_ANYDEPTH);
 }
 
-std::map<std::string, std::map<std::string, std::list<std::list<std::vector<float> > > > > load(FacialLandmarkDetector* fdet,std::string path, std::list<std::string> emotionIds, std::list<std::string> personIds, std::string separator = " ", std::string extension = "png"){
-    std::map<std::string, std::map<std::string, std::list<std::list<std::vector<float> > > > > emotionPersonDataMap;
+FacesImagesDatabase* load(FacialLandmarkDetector* fdet,std::string path, std::list<std::string> emotionIds, std::list<std::string> personIds, std::string separator = " ", std::string extension = "png"){
+    FacesImagesDatabase* emotionPersonDataMap = new FacesImagesDatabase();
 
     for(std::string &emotionId: emotionIds){
-        emotionPersonDataMap[emotionId] = std::map<std::string, std::list<std::list<std::vector<float> > > >();
         for(std::string &personId: personIds){
-            emotionPersonDataMap[emotionId][personId] = std::list<std::list<std::vector<float> > >();
 
             std::string filePath = path + "/" + emotionId + separator + personId + "." + extension;
             if(fileExists(filePath)){
@@ -85,7 +101,7 @@ std::map<std::string, std::map<std::string, std::list<std::list<std::vector<floa
                 std::list<std::list<std::vector<float> > > tmp = fdet->getFacesPoints(readImage(filePath.c_str()));
                 if(tmp.size() >= 1){
                     std::cout << "Face points retrieved. (" << tmp.size() << " x " << (*tmp.begin()).size() << ")" << std::endl;
-                    emotionPersonDataMap[emotionId][personId].push_back((*tmp.begin()));
+                    emotionPersonDataMap->add(personId, toEmotion(emotionId), *tmp.begin());
                 }
             }
 
@@ -97,7 +113,7 @@ std::map<std::string, std::map<std::string, std::list<std::list<std::vector<floa
                 std::list<std::list<std::vector<float> > > tmp = fdet->getFacesPoints(readImage(filePath.c_str()));
                 if(tmp.size() >= 1){
                     std::cout << "Face points retrieved. (" << tmp.size() << " x " << (*tmp.begin()).size() << ")" << std::endl;
-                    emotionPersonDataMap[emotionId][personId].push_back((*tmp.begin()));
+                    emotionPersonDataMap->add(personId, toEmotion(emotionId), *tmp.begin());
                 }
             }
         }
@@ -106,66 +122,20 @@ std::map<std::string, std::map<std::string, std::list<std::list<std::vector<floa
     return emotionPersonDataMap;
 }
 
-std::list<std::vector<float> > countDifference(std::map<std::string, std::map<std::string, std::list<std::list<std::vector<float> > > > > data,
-                EmotionDetector* detector,
-                std::string basicExpression,
-                std::string specialExpression){
-
-    std::list<std::vector<float> > result;
-
-    if(data.size() == 0)
-        throw "Empty data set.";
-
-    if(data[basicExpression].size() == 0)
-        throw "Empty set of basic expressions.";
-
-    if(data[specialExpression].size() == 0)
-        throw "Empty set of non-basic expressions.";
-
-    std::map<std::string, std::list<std::list<std::vector<float> > > >::iterator it;
-    for(it = data[basicExpression].begin(); it != data[basicExpression].end(); it++){
-        std::string personId = it->first;
-        for(auto basicExpressionForPersonId: data[basicExpression][personId]){
-            for(auto specialExpressionForPersonId: data[specialExpression][personId]){
-                result.push_back(detector->countDifference(basicExpressionForPersonId, specialExpressionForPersonId));
-            }
-        }
-    }
-
-    return result;
-}
-
 int main(){
     try{
         FacialLandmarkDetector* fdet = new DlibFacialLandmarkDetector();
-        EmotionDetector* detector = new EmotionDetector(new ICPModelRegistrator(), new PCADimentionalityReducer());
+        EmotionDetector* detector = new EmotionDetector(new ICPModelRegistrator(), new ReduceKnnClassifier(new PCADimentionalityReducer(5)));
 
         std::cout << "\nAll classes successfully initialized.\n";
 
         std::list<std::string> personIds = {"a", "b", "c", "d", "e", "f", "g"};
 
-        std::map<std::string, std::map<std::string, std::list<std::list<std::vector<float> > > > > data = load(fdet, "C:\\Users\\Mary\\Desktop\\attachments\\colour", listOfEmotions, personIds, "_", "png");
+        FacesImagesDatabase* database = load(fdet, "C:\\Users\\Mary\\Desktop\\attachments\\colour", listOfEmotions, personIds, "_", "png");
 
         std::cout << "\nAll images successfully loaded.\n";
 
-        std::list<std::vector<float> > diffs;
-        std::list<Emotion> emotions;
-
-        for(auto emotionName: listOfEmotions){
-            std::list<std::vector<float> > tmp = countDifference(data, detector, SAD, emotionName);
-
-            for(int i = 0; i<tmp.size(); ++i){
-                emotions.push_back(toEmotion(emotionName));
-            }
-
-            diffs.splice(diffs.end(), tmp);
-        }
-
-        Visualizer* visualizer = new Visualizer();
-        Space* space = detector->createSpaceOfDifferences(diffs, emotions);
-        visualizer->visualize("Points", space, &emotionToColor, 640, 480);
-
-        data.clear();
+        detector->initialize(database, Emotion::sad);
 
         return 0;
     } catch(const char* msg){

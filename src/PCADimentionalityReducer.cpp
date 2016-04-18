@@ -5,9 +5,8 @@
 
 using namespace cv;
 
-PCADimentionalityReducer::PCADimentionalityReducer()
+PCADimentionalityReducer::PCADimentionalityReducer(int dimensionsNo): DimentionalityReducer(dimensionsNo)
 {
-    //ctor
 }
 
 PCADimentionalityReducer::~PCADimentionalityReducer()
@@ -15,8 +14,7 @@ PCADimentionalityReducer::~PCADimentionalityReducer()
     //dtor
 }
 
-void PCADimentionalityReducer::initialize(std::list<std::vector<float> > data, int dimensionsNo){
-    this->dimensionsNo = dimensionsNo;
+void PCADimentionalityReducer::initialize(std::list<std::vector<float> > data){
 
     /*for(std::vector<float> &vec: data)
         for(float &f: vec)
@@ -45,4 +43,11 @@ std::list<std::vector<float> > PCADimentionalityReducer::reduceDimentionality(st
     std::cout << "Size of final matrix, rows: " << result.size() << ", columns: " << (*result.begin()).size() << "\n";
 
     return result;
+}
+
+std::vector<float> PCADimentionalityReducer::reduceDimentionality(std::vector<float> vec){
+    std::list<std::vector<float> > tmp;
+    tmp.push_back(vec);
+
+    return *(reduceDimentionality(tmp).begin());
 }

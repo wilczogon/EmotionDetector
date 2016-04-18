@@ -35,6 +35,7 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="include/AdaBoostDimentionalityReducer.h" />
+		<Unit filename="include/Classifier.h" />
 		<Unit filename="include/DimentionalityReducer.h" />
 		<Unit filename="include/DlibFacialLandmarkDetector.h" />
 		<Unit filename="include/Emotion.h" />
@@ -44,6 +45,7 @@
 		<Unit filename="include/ICPModelRegistrator.h" />
 		<Unit filename="include/ModelRegistrator.h" />
 		<Unit filename="include/PCADimentionalityReducer.h" />
+		<Unit filename="include/ReduceKnnClassifier.h" />
 		<Unit filename="include/SimpleModelRegistrator.h" />
 		<Unit filename="include/Space.h" />
 		<Unit filename="include/Translator.h" />
@@ -56,6 +58,7 @@
 		<Unit filename="src/ICPModelRegistrator.cpp" />
 		<Unit filename="src/ModelRegistrator.cpp" />
 		<Unit filename="src/PCADimentionalityReducer.cpp" />
+		<Unit filename="src/ReduceKnnClassifier.cpp" />
 		<Unit filename="src/SimpleModelRegistrator.cpp" />
 		<Unit filename="src/Space.cpp" />
 		<Unit filename="src/Translator.cpp" />
