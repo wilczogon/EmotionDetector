@@ -34,12 +34,14 @@
 			<Add option="-std=c++11" />
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="include/AdaBoostDimentionalityReducer.h" />
+		<Unit filename="include/AdaBoostClassifier.h" />
 		<Unit filename="include/Classifier.h" />
 		<Unit filename="include/DimentionalityReducer.h" />
 		<Unit filename="include/DlibFacialLandmarkDetector.h" />
 		<Unit filename="include/Emotion.h" />
 		<Unit filename="include/EmotionDetector.h" />
+		<Unit filename="include/FacesDifferencesDatabase.h" />
+		<Unit filename="include/FacesImagesDatabase.h" />
 		<Unit filename="include/FacialLandmarkDetector.h" />
 		<Unit filename="include/FileStream.h" />
 		<Unit filename="include/ICPModelRegistrator.h" />
@@ -50,10 +52,12 @@
 		<Unit filename="include/Space.h" />
 		<Unit filename="include/Translator.h" />
 		<Unit filename="include/Visualizer.h" />
-		<Unit filename="src/AdaBoostDimentionalityReducer.cpp" />
+		<Unit filename="src/AdaBoostClassifier.cpp" />
 		<Unit filename="src/DimentionalityReducer.cpp" />
 		<Unit filename="src/DlibFacialLandmarkDetector.cpp" />
 		<Unit filename="src/EmotionDetector.cpp" />
+		<Unit filename="src/FacesDifferencesDatabase.cpp" />
+		<Unit filename="src/FacesImagesDatabase.cpp" />
 		<Unit filename="src/FileStream.cpp" />
 		<Unit filename="src/ICPModelRegistrator.cpp" />
 		<Unit filename="src/ModelRegistrator.cpp" />

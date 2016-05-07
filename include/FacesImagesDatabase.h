@@ -12,14 +12,14 @@ class FacesImagesDatabase
 {
     public:
         FacesImagesDatabase();
-        void add(std::string personId, Emotion emotion, cv::Mat vec);
-        std::list<cv::Mat> get(std::string personId, Emotion emotion);
+        void add(std::string name, std::string personId, Emotion emotion, cv::Mat vec);
+        std::map<std::string, cv::Mat> get(std::string personId, Emotion emotion);
         std::set<Emotion> getEmotions();
         std::set<std::string> getPersonIds();
         virtual ~FacesImagesDatabase();
     protected:
     private:
-        std::map<std::string, std::map<Emotion, std::list<cv::Mat>> > data;
+        std::map<std::string, std::map<Emotion, std::map<std::string, cv::Mat> > > data;
         std::set<Emotion> emotions;
         std::set<std::string> personIds;
 };

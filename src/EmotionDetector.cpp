@@ -2,6 +2,7 @@
 #include "Visualizer.h"
 #include "FacialLandmarkDetector.h"
 #include "ModelRegistrator.h"
+#include <Translator.h>
 #include <iostream>
 #include <opencv2/core.hpp>
 
@@ -58,14 +59,18 @@ float EmotionDetector::test(FacesImagesDatabase* testDatabase, bool loggingOn){
 
     FacesDifferencesDatabase* testDiffs = prepareDiffs(testDatabase, diffs->getBasicEmotion());
 
-    for(auto emotion: testDiffs->getEmotions())
+    for(auto emotion: testDiffs->getEmotions()){
+        std::vector<std::string> names = testDiffs->getNames(emotion);
         for(int rowNo = 0; rowNo < testDiffs->get(emotion).rows; ++rowNo){
             cv::Mat diff = testDiffs->get(emotion).row(rowNo);
+            //
+            //std::cout << names[rowNo] << "\n" << "Actual emotion:\t" << Translator::toString(emotion) << "\nClassified as:\t" << Translator::toString(classifier->classify(diff)) << std::endl << std::endl;
             if(classifier->classify(diff) == emotion)
                 correctlyClassified++;
             else
                 incorrectlyClassified++;
         }
+    }
 
     float result = incorrectlyClassified/float(correctlyClassified + incorrectlyClassified);
 
@@ -88,14 +93,7 @@ FacesDifferencesDatabase* EmotionDetector::prepareDiffs(FacesImagesDatabase* dat
         for(auto emotion: database->getEmotions())
             for(auto specialData: database->get(personId, emotion))
                 for(auto basicData: database->get(personId, basicEmotion))
-                    diffs->add(emotion, countDifference(basicData, specialData));
-            /*for(int specialDataRowNo = 0; specialDataRowNo < database->get(personId, emotion).rows; ++specialDataRowNo){
-                cv::Mat specialData = database->get(personId, emotion).row(specialDataRowNo);
-                for(int basicDataRowNo = 0; basicDataRowNo < database->get(personId, basicEmotion).rows; ++basicDataRowNo){
-                    cv::Mat basicData = database->get(personId, basicEmotion).row(basicDataRowNo);
-                    diffs->add(emotion, countDifference(basicData, specialData));
-                }
-            }*/
+                    diffs->add(Translator::toShort(basicData.first) + " - " + Translator::toShort(specialData.first), emotion, countDifference(basicData.second, specialData.second));
 
     return diffs;
 }

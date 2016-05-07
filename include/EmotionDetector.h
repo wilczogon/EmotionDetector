@@ -21,7 +21,6 @@ class EmotionDetector
         void initialize(FacesImagesDatabase* database, Emotion basicEmotion);
         Emotion classify(cv::Mat basicExpression, cv::Mat specialExpression);
         float test(FacesImagesDatabase* testDatabase, bool loggingOn);
-        //Space* createSpaceOfDifferences(std::list<std::vector<float> > differences, std::list<Emotion> emotions);
     protected:
     private:
         cv::Mat countDifference(cv::Mat basicFaceExpression, cv::Mat specialFaceExpression);

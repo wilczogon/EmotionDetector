@@ -55,6 +55,10 @@ void Visualizer::visualize(std::string title, /*std::list<std::vector<float> > p
     }
 }
 
+void Visualizer::visualizeClusters(std::string title, cv::Mat positions, std::list<sf::Color> colors, int width, int height/*labels?*/){
+    visualizeClusters(title, Translator::matToListOfFloatVectors(positions), colors, width, height);
+}
+
 void Visualizer::visualizeClusters(std::string title, std::list<std::vector<float> > positions, std::list<sf::Color> colors, int width, int height){
 
     int dim = (*positions.begin()).size();

@@ -11,7 +11,7 @@ using namespace cv;
 class AdaBoostClassifier: public Classifier
 {
     public:
-        AdaBoostClassifier();
+        AdaBoostClassifier(int weakCount, float weightTrimRate, int maxDepth, bool useSurrogates);
         virtual ~AdaBoostClassifier();
         virtual void initialize(FacesDifferencesDatabase* database);
         virtual Emotion classify(Mat vec);

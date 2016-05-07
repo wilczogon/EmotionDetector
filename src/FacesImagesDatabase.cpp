@@ -12,13 +12,13 @@ FacesImagesDatabase::~FacesImagesDatabase()
     //dtor
 }
 
-void FacesImagesDatabase::add(std::string personId, Emotion emotion, cv::Mat vec){
-    data[personId][emotion].push_back(vec);
+void FacesImagesDatabase::add(std::string name, std::string personId, Emotion emotion, cv::Mat vec){
+    data[personId][emotion][name] = vec;
     emotions.insert(emotion);
     personIds.insert(personId);
 }
 
-std::list<cv::Mat> FacesImagesDatabase::get(std::string personId, Emotion emotion){
+std::map<std::string, cv::Mat> FacesImagesDatabase::get(std::string personId, Emotion emotion){
     return data[personId][emotion];
 }
 

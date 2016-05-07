@@ -5,14 +5,14 @@
 
 using namespace cv;
 
-AdaBoostClassifier::AdaBoostClassifier()
+AdaBoostClassifier::AdaBoostClassifier(int weakCount, float weightTrimRate, int maxDepth, bool useSurrogates)
 {
     boost = cv::ml::Boost::create();
     boost->setBoostType(cv::ml::Boost::REAL);
-    boost->setWeakCount(100);
-    boost->setWeightTrimRate(0.95);
-    boost->setMaxDepth(2);
-    boost->setUseSurrogates(false);
+    boost->setWeakCount(weakCount);
+    boost->setWeightTrimRate(weightTrimRate);
+    boost->setMaxDepth(maxDepth);
+    boost->setUseSurrogates(useSurrogates);
     boost->setPriors(Mat());
 }
 
@@ -24,7 +24,8 @@ AdaBoostClassifier::~AdaBoostClassifier()
 void AdaBoostClassifier::initialize(FacesDifferencesDatabase* database){
     cv::Mat samples;
     cv::Mat responses;
-    database->getData(samples, responses);
+    std::vector<std::string> names;
+    database->getData(names, samples, responses);
     Ptr<cv::ml::TrainData> trainData = cv::ml::TrainData::create(samples, cv::ml::SampleTypes::ROW_SAMPLE, responses);
     boost->train(trainData);
 }

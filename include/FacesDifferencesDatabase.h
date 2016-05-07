@@ -10,17 +10,19 @@ class FacesDifferencesDatabase
 {
     public:
         FacesDifferencesDatabase(Emotion basicEmotion);
-        void add(Emotion emotion, cv::Mat vec);
+        void add(std::string name, Emotion emotion, cv::Mat vec);
         cv::Mat get(Emotion emotion);
+        std::vector<std::string> getNames(Emotion emotion);
         std::set<Emotion> getEmotions();
         Emotion getBasicEmotion();
-        void getData(cv::Mat& samples, cv::Mat& responses);
+        void getData(std::vector<std::string>& names, cv::Mat& samples, cv::Mat& responses);
         virtual ~FacesDifferencesDatabase();
     protected:
     private:
         Emotion basicEmotion;
         std::set<Emotion> emotions;
-        std::map<Emotion, cv::Mat > data;
+        std::map<Emotion, std::vector<std::string> > names;
+        std::map<Emotion, cv::Mat> data;
 };
 
 #endif // FACESDIFFERENCESDATABASE_H

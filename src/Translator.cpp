@@ -4,6 +4,103 @@
 
 using namespace cv;
 
+std::string Translator::toShort(std::string str){
+    return toShort(str, 20);
+}
+
+std::string Translator::toShort(std::string str, int k){
+    if(str.length() <= k)
+        return str;
+    else
+        return "..." + str.substr(str.length() - k, k);
+}
+
+sf::Color Translator::emotionToColor(Emotion emotion){
+    std::string HAPPY = "happy",
+            NEUTRAL = "neutral",
+            SAD = "sad",
+            SURPRISED = "surprised",
+            ANGRY = "angry";
+
+    if(emotion == Emotion::happy)
+        return sf::Color::Green;
+    else if(emotion == Emotion::neutral)
+        return sf::Color::Yellow;
+    else if(emotion == Emotion::sad)
+        return sf::Color::Blue;
+    else if(emotion == Emotion::surprised)
+        return sf::Color::Magenta;
+    else if(emotion == Emotion::angry)
+        return sf::Color::Red;
+    else
+        return sf::Color(10, 10, 10, 255);
+}
+
+sf::Color Translator::emotionToColor(void* classPoint){
+    std::string HAPPY = "happy",
+            NEUTRAL = "neutral",
+            SAD = "sad",
+            SURPRISED = "surprised",
+            ANGRY = "angry";
+
+    Emotion emotion = (Emotion)(*((int*)classPoint));
+
+    if(emotion == Emotion::happy)
+        return sf::Color::Green;
+    else if(emotion == Emotion::neutral)
+        return sf::Color::Yellow;
+    else if(emotion == Emotion::sad)
+        return sf::Color::Blue;
+    else if(emotion == Emotion::surprised)
+        return sf::Color::Magenta;
+    else if(emotion == Emotion::angry)
+        return sf::Color::Red;
+    else
+        return sf::Color(10, 10, 10, 255);
+}
+
+Emotion Translator::toEmotion(std::string name){
+    std::string HAPPY = "happy",
+            NEUTRAL = "neutral",
+            SAD = "sad",
+            SURPRISED = "surprised",
+            ANGRY = "angry";
+
+    if(name == HAPPY)
+        return happy;
+    else if(name == NEUTRAL)
+        return neutral;
+    else if(name == SAD)
+        return sad;
+    else if(name == SURPRISED)
+        return surprised;
+    else if(name == ANGRY)
+        return angry;
+    else
+        return (Emotion)NULL;
+}
+
+std::string Translator::toString(Emotion emotion){
+    std::string HAPPY = "happy",
+            NEUTRAL = "neutral",
+            SAD = "sad",
+            SURPRISED = "surprised",
+            ANGRY = "angry";
+
+    if(emotion == Emotion::happy)
+        return HAPPY;
+    else if(emotion == Emotion::neutral)
+        return NEUTRAL;
+    else if(emotion == Emotion::sad)
+        return SAD;
+    else if(emotion == Emotion::surprised)
+        return SURPRISED;
+    else if(emotion == Emotion::angry)
+        return ANGRY;
+    else
+        return (std::string)NULL;
+}
+
 Mat Translator::listOfFloatVectorsToMat(std::list<std::vector<float> > data){
     return arrayOfFloatsToMat(listOfFloatVectorsToArrayOfFloats(data), data.size(), (*data.begin()).size());
 }
