@@ -24,6 +24,7 @@ class Translator
         static float* listOfFloatVectorsToArrayOfFloats(std::list<std::vector<float> > data);
         static std::list<std::vector<float> > arrayOfFloatsToListOfFloatVectors(float* matrix, int rows, int cols);
         static std::list<sf::Color> classesToColors(std::list<void*> classes, sf::Color(*func)(void*));
+        static std::string trim(const std::string &s);
     protected:
     private:
 };

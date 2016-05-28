@@ -8,10 +8,17 @@
 
 using namespace std;
 
-EmotionDetector::EmotionDetector(ModelRegistrator* registrator, Classifier* classifier)
+EmotionDetector::EmotionDetector(ModelRegistrator* registrator,
+                                 Classifier* classifier,
+                                 ScaleSolution* scaleSolution,
+                                 FilterSolution* filterSolution,
+                                 Configuration* conf)
 {
     this->registrator = registrator;
     this->classifier = classifier;
+    this->scaleSolution = scaleSolution;
+    this->filterSolution = filterSolution;
+    this->conf = conf;
 }
 
 EmotionDetector::~EmotionDetector()
@@ -22,7 +29,9 @@ EmotionDetector::~EmotionDetector()
 cv::Mat EmotionDetector::countDifference(cv::Mat basicFaceExpression, cv::Mat specialFaceExpression){
     cv::Mat result;
     cv::Mat registeredFaceExpression = registrator->registerModel(basicFaceExpression, specialFaceExpression);
+    scaleSolution->scale(registeredFaceExpression, basicFaceExpression);
     cv::subtract(registeredFaceExpression, basicFaceExpression, result);
+    filterSolution->filter(result);
     //TODO colors?
     return result.reshape(0, 1);
 }
@@ -53,7 +62,7 @@ Emotion EmotionDetector::classify(cv::Mat basicExpression, cv::Mat specialExpres
     return classifier->classify(countDifference(basicExpression, specialExpression));
 }
 
-float EmotionDetector::test(FacesImagesDatabase* testDatabase, bool loggingOn){
+float EmotionDetector::test(FacesImagesDatabase* testDatabase){
     int correctlyClassified = 0;
     int incorrectlyClassified = 0;
 
@@ -74,7 +83,7 @@ float EmotionDetector::test(FacesImagesDatabase* testDatabase, bool loggingOn){
 
     float result = incorrectlyClassified/float(correctlyClassified + incorrectlyClassified);
 
-    if(loggingOn)
+    if(conf->isTalkative())
         std::cout << "Correctly classified elements: " << correctlyClassified << std::endl << "Incorrectly classified elements: " << incorrectlyClassified << std::endl << "Error: " << result*100 << "%" << std::endl;
 
     return result;

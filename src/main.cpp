@@ -20,6 +20,7 @@
 #include <opencv/highgui.h>
 #include <ReduceKnnClassifier.h>
 #include <Translator.h>
+#include <Configuration.h>
 
 using namespace cv;
 
@@ -82,6 +83,7 @@ FacesImagesDatabase* load(FacialLandmarkDetector* fdet,std::string path, std::li
 int main(){
     try{
         FacialLandmarkDetector* fdet = new DlibFacialLandmarkDetector();
+        Configuration* conf = new Configuration("C:\\Users\\Mary\\Documents\\Mary\\9_semestr\\magisterka\\project\\visualization_data");
 
         FacesImagesDatabase* database = load(fdet, "C:\\Users\\Mary\\Desktop\\attachments\\colour", listOfEmotions, {"d", "e", "f", "g"}, "_", "png");
         FacesImagesDatabase* testDatabase = load(fdet, "C:\\Users\\Mary\\Desktop\\attachments\\colour", listOfEmotions, {"a", "b", "c"}, "_", "png");
@@ -96,9 +98,13 @@ int main(){
                 float weightTrimRate = 0.1;
                 while(weightTrimRate < 1.0){
                     for(int weakCount = 10; weakCount < 100000; weakCount*=10){
-                        EmotionDetector* detector = new EmotionDetector(new ICPModelRegistrator(), new AdaBoostClassifier(weakCount, weightTrimRate, maxDepth, useSurrogates)); //new ReduceKnnClassifier(new PCADimentionalityReducer(5), 3));
+                        EmotionDetector* detector = new EmotionDetector(new ICPModelRegistrator(),
+                                                                        new AdaBoostClassifier(weakCount, weightTrimRate, maxDepth, useSurrogates),
+                                                                        new ScaleSolution(1, 100.0),
+                                                                        new FilterSolution(0.0, 2.0),
+                                                                        conf);
                         detector->initialize(database, Emotion::sad);
-                        float res = detector->test(testDatabase, false);
+                        float res = detector->test(testDatabase);
                         std::cout << weakCount << ", " << weightTrimRate << ", " << maxDepth << ", " << useSurrogates << ", " << res << std::endl;
                     }
                     weightTrimRate+=0.1;
@@ -108,9 +114,13 @@ int main(){
         std::cout << "Reduce Knn" << std::endl << "n, k, result" << std::endl;
         for(int k = 1; k<10; ++k)
             for(int n = 2; n<5; ++n){
-                EmotionDetector* detector = new EmotionDetector(new ICPModelRegistrator(), new ReduceKnnClassifier(new PCADimentionalityReducer(n), k));
+                EmotionDetector* detector = new EmotionDetector(new ICPModelRegistrator(),
+                                                                new ReduceKnnClassifier(new PCADimentionalityReducer(n), k, conf),
+                                                                new ScaleSolution(1, 100.0),
+                                                                new FilterSolution(0.0, 2.0),
+                                                                conf);
                 detector->initialize(database, Emotion::sad);
-                float res = detector->test(testDatabase, false);
+                float res = detector->test(testDatabase);
                 std::cout << n << ", " << k << ", " << res << std::endl;
             }
 

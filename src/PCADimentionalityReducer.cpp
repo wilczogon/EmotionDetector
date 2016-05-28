@@ -15,7 +15,6 @@ PCADimentionalityReducer::~PCADimentionalityReducer()
 }
 
 void PCADimentionalityReducer::initialize(cv::Mat data){
-    //std::cout << "Size of initial matrix, rows: " << data.rows << ", columns: " << data.cols << "\n";
     pca = PCA(data, Mat(), CV_PCA_DATA_AS_ROW, dimensionsNo);
 }
 
