@@ -2,7 +2,7 @@
 #define FACIALLANDMARKDETECTOR_H
 #include <list>
 #include <vector>
-#include <SFML/Graphics.hpp>
+//#include <SFML/Graphics.hpp>
 #include <dlib/image_processing.h>
 #include <dlib/image_io.h>
 #include <opencv2/core.hpp>

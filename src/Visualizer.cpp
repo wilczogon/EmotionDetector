@@ -1,20 +1,20 @@
 #include <iostream>
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
+//#include <SFML/Graphics.hpp>
+//#include <SFML/Window.hpp>
 #include "Visualizer.h"
 #include <Translator.h>
 
 Visualizer::Visualizer()
 {
-    clearPoints();
+    //clearPoints();
 }
 
 Visualizer::~Visualizer()
 {
     //dtor
 }
-
-void Visualizer::visualize(std::string title, /*std::list<std::vector<float> > positions, std::list<sf::Color> colors,*/ int width, int height, sf::Texture* texture){
+/*
+void Visualizer::visualize(std::string title,*/ /*std::list<std::vector<float> > positions, std::list<sf::Color> colors,*/ /*int width, int height, sf::Texture* texture){
     sf::RenderWindow window(
         sf::VideoMode(width,height),
         title.c_str()
@@ -55,7 +55,7 @@ void Visualizer::visualize(std::string title, /*std::list<std::vector<float> > p
     }
 }
 
-void Visualizer::visualizeClusters(std::string title, cv::Mat positions, std::list<sf::Color> colors, int width, int height/*labels?*/){
+void Visualizer::visualizeClusters(std::string title, cv::Mat positions, std::list<sf::Color> colors, int width, int height*//*labels?*//*){
     visualizeClusters(title, Translator::matToListOfFloatVectors(positions), colors, width, height);
 }
 
@@ -148,4 +148,4 @@ void Visualizer::addPoint(sf::Vector2f position, sf::Color color){
 void Visualizer::clearPoints(){
     positions = std::list<sf::Vector2f>();
     colors = std::list<sf::Color>();
-}
+}*/

@@ -3,7 +3,7 @@
 #ifndef EMOTIONDETECTOR_H
 #define EMOTIONDETECTOR_H
 #include <iostream>
-#include <SFML/Graphics.hpp>
+//#include <SFML/Graphics.hpp>
 #include "Emotion.h"
 #include "Space.h"
 #include "ModelRegistrator.h"

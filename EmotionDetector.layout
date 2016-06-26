@@ -1,6 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
+	<File name="include\FilterSolution.h" open="1" top="0" tabpos="20" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="119" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\main.cpp" open="1" top="1" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="149" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\ICPModelRegistrator.h" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="479" topLine="1" />
+		</Cursor>
+	</File>
+	<File name="include\DimentionalityReducer.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="392" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\ModelRegistrator.h" open="0" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="83" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\Classifier.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="229" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\PCADimentionalityReducer.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="449" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\ReduceKnnClassifier.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="477" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\ScaleSolution.h" open="1" top="0" tabpos="17" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="268" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\SimpleModelRegistrator.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="281" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\Space.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="511" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\Translator.h" open="1" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="154" topLine="0" />
+		</Cursor>
+	</File>
 	<File name="include\Visualizer.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="191" topLine="0" />
@@ -9,6 +69,11 @@
 	<File name="src\AdaBoostClassifier.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="313" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\Configuration.cpp" open="1" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="196" topLine="1" />
 		</Cursor>
 	</File>
 	<File name="src\DimentionalityReducer.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -23,7 +88,7 @@
 	</File>
 	<File name="src\EmotionDetector.cpp" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2297" topLine="52" />
+			<Cursor1 position="3096" topLine="74" />
 		</Cursor>
 	</File>
 	<File name="src\FacesDifferencesDatabase.cpp" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -36,24 +101,9 @@
 			<Cursor1 position="402" topLine="6" />
 		</Cursor>
 	</File>
-	<File name="include\ModelRegistrator.h" open="0" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="83" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include\ICPModelRegistrator.h" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="479" topLine="1" />
-		</Cursor>
-	</File>
 	<File name="src\ICPModelRegistrator.cpp" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="227" topLine="3" />
-		</Cursor>
-	</File>
-	<File name="include\DimentionalityReducer.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="392" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="src\ModelRegistrator.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -61,89 +111,9 @@
 			<Cursor1 position="31" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include\ReduceKnnClassifier.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="477" topLine="0" />
-		</Cursor>
-	</File>
 	<File name="src\PCADimentionalityReducer.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="305" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include\DlibFacialLandmarkDetector.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="239" topLine="8" />
-		</Cursor>
-	</File>
-	<File name="src\ReduceKnnClassifier.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="636" topLine="21" />
-		</Cursor>
-	</File>
-	<File name="include\Classifier.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="229" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\SimpleModelRegistrator.cpp" open="0" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="434" topLine="5" />
-		</Cursor>
-	</File>
-	<File name="include\FacialLandmarkDetector.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="401" topLine="7" />
-		</Cursor>
-	</File>
-	<File name="src\Space.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="514" topLine="13" />
-		</Cursor>
-	</File>
-	<File name="include\FileStream.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="450" topLine="14" />
-		</Cursor>
-	</File>
-	<File name="src\Translator.cpp" open="1" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="70" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include\EmotionDetector.h" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="563" topLine="9" />
-		</Cursor>
-	</File>
-	<File name="src\Visualizer.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1850" topLine="62" />
-		</Cursor>
-	</File>
-	<File name="include\FacesDifferencesDatabase.h" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="663" topLine="8" />
-		</Cursor>
-	</File>
-	<File name="src\main.cpp" open="1" top="1" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2048" topLine="58" />
-		</Cursor>
-	</File>
-	<File name="include\FacesImagesDatabase.h" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="362" topLine="2" />
-		</Cursor>
-	</File>
-	<File name="include\SimpleModelRegistrator.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="281" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include\PCADimentionalityReducer.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="449" topLine="0" />
+			<Cursor1 position="380" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="include\Emotion.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -151,19 +121,69 @@
 			<Cursor1 position="163" topLine="0" />
 		</Cursor>
 	</File>
+	<File name="src\ReduceKnnClassifier.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="679" topLine="19" />
+		</Cursor>
+	</File>
+	<File name="include\EmotionDetector.h" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="824" topLine="15" />
+		</Cursor>
+	</File>
+	<File name="include\FacesDifferencesDatabase.h" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="663" topLine="5" />
+		</Cursor>
+	</File>
+	<File name="src\SimpleModelRegistrator.cpp" open="0" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="434" topLine="5" />
+		</Cursor>
+	</File>
+	<File name="include\FacesImagesDatabase.h" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="362" topLine="2" />
+		</Cursor>
+	</File>
 	<File name="include\AdaBoostClassifier.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="474" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include\Space.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\Space.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="511" topLine="0" />
+			<Cursor1 position="514" topLine="13" />
 		</Cursor>
 	</File>
-	<File name="include\Translator.h" open="1" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\FacialLandmarkDetector.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="154" topLine="0" />
+			<Cursor1 position="401" topLine="7" />
+		</Cursor>
+	</File>
+	<File name="include\DlibFacialLandmarkDetector.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="239" topLine="8" />
+		</Cursor>
+	</File>
+	<File name="src\Translator.cpp" open="1" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="70" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\FileStream.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="450" topLine="14" />
+		</Cursor>
+	</File>
+	<File name="include\Configuration.h" open="1" top="0" tabpos="19" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="487" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\Visualizer.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1850" topLine="62" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

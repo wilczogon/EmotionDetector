@@ -1,6 +1,7 @@
 #include <iostream>
 #include <list>
 #include <map>
+#include <vector>
 #include <FacialLandmarkDetector.h>
 #include <DlibFacialLandmarkDetector.h>
 #include <EmotionDetector.h>
@@ -13,7 +14,6 @@
 #include <AdaBoostClassifier.h>
 #include <sys/stat.h>
 #include <Visualizer.h>
-#include <SFML/Graphics.hpp>
 #include <png.h>
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
@@ -45,36 +45,47 @@ Mat readImage(const char* imageFile){
     return imread(String(imageFile), CV_LOAD_IMAGE_ANYCOLOR | CV_LOAD_IMAGE_ANYDEPTH);
 }
 
-FacesImagesDatabase* load(FacialLandmarkDetector* fdet,std::string path, std::list<std::string> emotionIds, std::list<std::string> personIds, std::string separator = " ", std::string extension = "png"){
+FacesImagesDatabase* load(FacialLandmarkDetector* fdet,std::string metadataPath,std::string dataPath, bool heading){
     FacesImagesDatabase* emotionPersonDataMap = new FacesImagesDatabase();
 
+    std::cout << "Metadata path: " << metadataPath << std::endl;
+    std::cout << "Data path: " << dataPath << std::endl;
     std::cout << "Processing images:" << std::endl;
 
-    for(std::string &emotionId: emotionIds){
-        for(std::string &personId: personIds){
+    ifstream infile(metadataPath);
 
-            std::string filePath = path + "/" + emotionId + separator + personId + "." + extension;
-            if(fileExists(filePath)){
-                std::cout << Translator::toShort(emotionId + separator + personId + "." + extension) << "... ";
-                std::list<cv::Mat> tmp = fdet->getFacesPoints(readImage(filePath.c_str()));
-                if(tmp.size() >= 1){
-                    std::cout << tmp.size() << " x " << (*tmp.begin()).size() << std::endl;
-                    emotionPersonDataMap->add(filePath, personId, Translator::toEmotion(emotionId), *tmp.begin());
-                }
-            }
+    bool first = true;
+    while (infile)
+    {
+        std::string s;
+        if (!getline( infile, s )) break;
 
-            for(int i = 1;; ++i){
-                filePath = path + "/" + emotionId + separator + personId + " (" + std::to_string(i) + ")." + extension;
-                if(!fileExists(filePath))
-                    break;
-                std::cout << Translator::toShort(emotionId + separator + personId + " (" + std::to_string(i) + ")." + extension) << "... ";
-                std::list<cv::Mat> tmp = fdet->getFacesPoints(readImage(filePath.c_str()));
-                if(tmp.size() >= 1){
-                    std::cout << tmp.size() << " x " << (*tmp.begin()).size() << std::endl;
-                    emotionPersonDataMap->add(filePath, personId, Translator::toEmotion(emotionId), *tmp.begin());
-                }
-            }
+        if(heading && first){
+            first = false;
+            continue;
         }
+
+        istringstream ss( s );
+        std::vector <std::string> record;
+
+        while (ss)
+        {
+            string s;
+            if (!getline( ss, s, ';' )) break;
+            record.push_back( s );
+        }
+
+        std::string filePath = dataPath + "/" + record[2];
+        std::cout << Translator::toShort(record[2]) << "... ";
+        std::list<cv::Mat> tmp = fdet->getFacesPoints(readImage(filePath.c_str()));
+        if(tmp.size() >= 1){
+            std::cout << tmp.size() << " x " << (*tmp.begin()).size() << std::endl;
+            emotionPersonDataMap->add(filePath, record[0], Translator::toEmotion(record[1]), *tmp.begin());
+        }
+    }
+    if (!infile.eof())
+    {
+        cerr << "Error during loading data\n";
     }
 
     return emotionPersonDataMap;
@@ -85,10 +96,8 @@ int main(){
         FacialLandmarkDetector* fdet = new DlibFacialLandmarkDetector();
         Configuration* conf = new Configuration("C:\\Users\\Mary\\Documents\\Mary\\9_semestr\\magisterka\\project\\visualization_data");
 
-        FacesImagesDatabase* database = load(fdet, "C:\\Users\\Mary\\Desktop\\attachments\\colour", listOfEmotions, {"d", "e", "f", "g"}, "_", "png");
-        FacesImagesDatabase* testDatabase = load(fdet, "C:\\Users\\Mary\\Desktop\\attachments\\colour", listOfEmotions, {"a", "b", "c"}, "_", "png");
-        //FacesImagesDatabase* testDatabase = load(fdet, "C:\\Users\\Mary\\Documents\\Mary\\9_semestr\\magisterka\\project\\test_images", listOfEmotions, {"gibbs", "jack_black", "gandalf"}, "_", "jpg");
-        //FacesImagesDatabase* database = testDatabase;//load(fdet, "C:\\Users\\Mary\\Documents\\Mary\\9_semestr\\magisterka\\project\\test_images", listOfEmotions, {"gandalf"}, "_", "jpg");
+        FacesImagesDatabase* database = load(fdet, "C:\\Users\\Mary\\Documents\\Mary\\9_semestr\\magisterka\\project\\metadata_training.csv", "C:\\Users\\Mary\\Desktop\\attachments", true);
+        FacesImagesDatabase* testDatabase = load(fdet, "C:\\Users\\Mary\\Documents\\Mary\\9_semestr\\magisterka\\project\\metadata_test.csv", "C:\\Users\\Mary\\Desktop\\attachments", true);
 
         std::cout << "\nAll images successfully loaded.\n";
 
@@ -111,18 +120,27 @@ int main(){
                 }
             }*/
 
-        std::cout << "Reduce Knn" << std::endl << "n, k, result" << std::endl;
-        for(int k = 1; k<10; ++k)
-            for(int n = 2; n<5; ++n){
-                EmotionDetector* detector = new EmotionDetector(new ICPModelRegistrator(),
-                                                                new ReduceKnnClassifier(new PCADimentionalityReducer(n), k, conf),
-                                                                new ScaleSolution(1, 100.0),
-                                                                new FilterSolution(0.0, 2.0),
-                                                                conf);
-                detector->initialize(database, Emotion::sad);
-                float res = detector->test(testDatabase);
-                std::cout << n << ", " << k << ", " << res << std::endl;
+        std::cout << "Reduce Knn" << std::endl << "lowerThreshold, upperThreshold, n, k, result" << std::endl;
+        float lowerThreshold = 0.0;
+        float upperThreshold = 0.9;
+        while(lowerThreshold <= 0.1){
+            while(upperThreshold <= 1.0){
+                for(int k = 1; k<5; ++k)
+                    for(int n = 2; n<6; ++n){
+                        EmotionDetector* detector = new EmotionDetector(new ICPModelRegistrator(),
+                                                                        new ReduceKnnClassifier(new PCADimentionalityReducer(n), k, conf),
+                                                                        new ScaleSolution(1, 100.0),
+                                                                        new FilterSolution(lowerThreshold, upperThreshold),
+                                                                        conf);
+                        detector->initialize(database, Emotion::sad);
+                        float res = detector->test(testDatabase);
+                        std::cout << lowerThreshold << ", " << upperThreshold << ", " << n << ", " << k << ", " << res << std::endl;
+                    }
+
+                upperThreshold += 0.01;
             }
+            lowerThreshold += 0.01;
+        }
 
         return 0;
     } catch(const char* msg){

@@ -14,7 +14,7 @@ std::string Translator::toShort(std::string str, int k){
     else
         return "..." + str.substr(str.length() - k, k);
 }
-
+/*
 sf::Color Translator::emotionToColor(Emotion emotion){
     std::string HAPPY = "happy",
             NEUTRAL = "neutral",
@@ -58,7 +58,7 @@ sf::Color Translator::emotionToColor(void* classPoint){
     else
         return sf::Color(10, 10, 10, 255);
 }
-
+*/
 Emotion Translator::toEmotion(std::string name){
     std::string HAPPY = "happy",
             NEUTRAL = "neutral",
@@ -145,14 +145,14 @@ std::list<std::vector<float> > Translator::arrayOfFloatsToListOfFloatVectors(flo
     return res;
 }
 
-std::list<sf::Color> Translator::classesToColors(std::list<void*> classes, sf::Color(*func)(void*)){
+/*std::list<sf::Color> Translator::classesToColors(std::list<void*> classes, sf::Color(*func)(void*)){
     std::list<sf::Color> colors;
 
     for(auto classPoint: classes)
         colors.push_back(func(classPoint));
 
     return colors;
-}
+}*/
 
 std::string Translator::trim(const std::string &s)
 {
