@@ -9,6 +9,7 @@
 using namespace std;
 
 EmotionDetector::EmotionDetector(ModelRegistrator* registrator,
+                                 DimentionalityReducer* reducer,
                                  Classifier* classifier,
                                  ScaleSolution* scaleSolution,
                                  FilterSolution* filterSolution,
@@ -19,11 +20,16 @@ EmotionDetector::EmotionDetector(ModelRegistrator* registrator,
     this->scaleSolution = scaleSolution;
     this->filterSolution = filterSolution;
     this->conf = conf;
+    this->reducer = reducer;
 }
 
 EmotionDetector::~EmotionDetector()
 {
-    //dtor
+    delete registrator;
+    delete classifier;
+    delete scaleSolution;
+    delete filterSolution;
+    delete reducer;
 }
 
 cv::Mat EmotionDetector::countDifference(cv::Mat basicFaceExpression, cv::Mat specialFaceExpression){
@@ -34,32 +40,23 @@ cv::Mat EmotionDetector::countDifference(cv::Mat basicFaceExpression, cv::Mat sp
     filterSolution->filter(result);
     //TODO colors?
     return result.reshape(0, 1);
+    registeredFaceExpression.release();
 }
-
-/*Space* EmotionDetector::createSpaceOfDifferences(std::list<std::vector<float> > differences, std::list<Emotion> emotions){
-    if(differences.size() != emotions.size())
-        throw "Not equal number of differences and emotions";
-
-    reducer->initialize(differences);
-
-    std::list<void*> data;
-    std::list<Emotion>::iterator iter;
-    for(iter = emotions.begin(); iter != emotions.end(); ++iter){
-        int* emotionInt = new int[1];
-        emotionInt[0] = (*iter);
-        data.push_back(emotionInt);
-    }
-
-    return new Space(reducer->reduceDimentionality(differences), data);
-}*/
 
 void EmotionDetector::initialize(FacesImagesDatabase* database, Emotion basicEmotion){
     diffs = prepareDiffs(database, basicEmotion);
-    classifier->initialize(diffs);
+    cv::Mat samples;
+    cv::Mat responses;
+    std::vector<std::string> names;
+    diffs->getData(names, samples, responses);
+    reducer->initialize(samples);
+    classifier->initialize(reducer->reduceDimentionality(samples), responses);
+    samples.release();
+    responses.release();
 }
 
 Emotion EmotionDetector::classify(cv::Mat basicExpression, cv::Mat specialExpression){
-    return classifier->classify(countDifference(basicExpression, specialExpression));
+    return classifier->classify(reducer->reduceDimentionality(countDifference(basicExpression, specialExpression)));
 }
 
 float EmotionDetector::test(FacesImagesDatabase* testDatabase){
@@ -72,14 +69,17 @@ float EmotionDetector::test(FacesImagesDatabase* testDatabase){
         std::vector<std::string> names = testDiffs->getNames(emotion);
         for(int rowNo = 0; rowNo < testDiffs->get(emotion).rows; ++rowNo){
             cv::Mat diff = testDiffs->get(emotion).row(rowNo);
-            //
-            //std::cout << names[rowNo] << "\n" << "Actual emotion:\t" << Translator::toString(emotion) << "\nClassified as:\t" << Translator::toString(classifier->classify(diff)) << std::endl << std::endl;
-            if(classifier->classify(diff) == emotion)
+
+            if(classifier->classify(reducer->reduceDimentionality(diff)) == emotion)
                 correctlyClassified++;
             else
                 incorrectlyClassified++;
+
+            diff.release();
         }
     }
+
+    delete testDiffs;
 
     float result = incorrectlyClassified/float(correctlyClassified + incorrectlyClassified);
 

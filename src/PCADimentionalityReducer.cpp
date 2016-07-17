@@ -11,7 +11,7 @@ PCADimentionalityReducer::PCADimentionalityReducer(int dimensionsNo): Dimentiona
 
 PCADimentionalityReducer::~PCADimentionalityReducer()
 {
-    //dtor
+    //delete pca;
 }
 
 void PCADimentionalityReducer::initialize(cv::Mat data){

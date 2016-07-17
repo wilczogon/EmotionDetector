@@ -4,27 +4,19 @@
 #include <iostream>
 #include <fstream>
 
-ReduceKnnClassifier::ReduceKnnClassifier(DimentionalityReducer* reducer, int k, Configuration* conf)
+ReduceKnnClassifier::ReduceKnnClassifier(int k, Configuration* conf)
 {
-    this->reducer = reducer;
     this->k = k;
     knn = cv::ml::KNearest::create();
-    this->saveVisualizationData = saveVisualizationData;
     this->configuration = conf;
 }
 
 ReduceKnnClassifier::~ReduceKnnClassifier()
 {
-    //dtor
+    knn.release();
 }
 
-void ReduceKnnClassifier::initialize(FacesDifferencesDatabase* database){
-    cv::Mat samples;
-    cv::Mat responses;
-    std::vector<std::string> names;
-    database->getData(names, samples, responses);
-    reducer->initialize(samples);
-    samples = reducer->reduceDimentionality(samples);
+void ReduceKnnClassifier::initialize(cv::Mat samples, cv::Mat responses){
     knn->train(samples, cv::ml::ROW_SAMPLE, responses);
 
     if(configuration->saveVisualizationData()){
@@ -46,7 +38,6 @@ void ReduceKnnClassifier::initialize(FacesDifferencesDatabase* database){
 
 Emotion ReduceKnnClassifier::classify(cv::Mat vec){
     cv::Mat response, dist;
-    vec = reducer->reduceDimentionality(vec);
     knn->findNearest(vec, k, cv::noArray(), response, dist);
 
     std::map<int, int> countMap;
@@ -72,16 +63,3 @@ Emotion ReduceKnnClassifier::classify(cv::Mat vec){
 
     return (Emotion)(int)response.at<float>(0, maxIndex);
 }
-
-/*void ReduceKnnClassifier::visualize(FacesDifferencesDatabase* database, Visualizer* visualizer){
-    cv::Mat samples;
-    cv::Mat responses;
-    std::vector<std::string> names;
-    database->getData(names, samples, responses);
-    reducer->initialize(samples);
-    samples = reducer->reduceDimentionality(samples);
-    std::list<sf::Color> colors;
-    for(int i = 0; i<responses.cols*responses.rows; ++i)
-        colors.push_back(Translator::emotionToColor((Emotion)responses.at<int>(0, i)));
-    visualizer->visualizeClusters("Clusters created by ReduceKnnClassifier", samples, colors, 800, 600);
-}*/

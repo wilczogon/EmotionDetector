@@ -14,51 +14,7 @@ std::string Translator::toShort(std::string str, int k){
     else
         return "..." + str.substr(str.length() - k, k);
 }
-/*
-sf::Color Translator::emotionToColor(Emotion emotion){
-    std::string HAPPY = "happy",
-            NEUTRAL = "neutral",
-            SAD = "sad",
-            SURPRISED = "surprised",
-            ANGRY = "angry";
 
-    if(emotion == Emotion::happy)
-        return sf::Color::Green;
-    else if(emotion == Emotion::neutral)
-        return sf::Color::Yellow;
-    else if(emotion == Emotion::sad)
-        return sf::Color::Blue;
-    else if(emotion == Emotion::surprised)
-        return sf::Color::Magenta;
-    else if(emotion == Emotion::angry)
-        return sf::Color::Red;
-    else
-        return sf::Color(10, 10, 10, 255);
-}
-
-sf::Color Translator::emotionToColor(void* classPoint){
-    std::string HAPPY = "happy",
-            NEUTRAL = "neutral",
-            SAD = "sad",
-            SURPRISED = "surprised",
-            ANGRY = "angry";
-
-    Emotion emotion = (Emotion)(*((int*)classPoint));
-
-    if(emotion == Emotion::happy)
-        return sf::Color::Green;
-    else if(emotion == Emotion::neutral)
-        return sf::Color::Yellow;
-    else if(emotion == Emotion::sad)
-        return sf::Color::Blue;
-    else if(emotion == Emotion::surprised)
-        return sf::Color::Magenta;
-    else if(emotion == Emotion::angry)
-        return sf::Color::Red;
-    else
-        return sf::Color(10, 10, 10, 255);
-}
-*/
 Emotion Translator::toEmotion(std::string name){
     std::string HAPPY = "happy",
             NEUTRAL = "neutral",
@@ -145,15 +101,6 @@ std::list<std::vector<float> > Translator::arrayOfFloatsToListOfFloatVectors(flo
     return res;
 }
 
-/*std::list<sf::Color> Translator::classesToColors(std::list<void*> classes, sf::Color(*func)(void*)){
-    std::list<sf::Color> colors;
-
-    for(auto classPoint: classes)
-        colors.push_back(func(classPoint));
-
-    return colors;
-}*/
-
 std::string Translator::trim(const std::string &s)
 {
     std::string::const_iterator it = s.begin();
@@ -165,5 +112,31 @@ std::string Translator::trim(const std::string &s)
         rit++;
 
     return std::string(it, rit.base());
+}
+
+float depthToMeters(float depthValue)
+{
+    if (depthValue < 2047)
+    {
+        return float(1.0 / (depthValue * -0.0030711016 + 3.3309495161));
+    }
+    return 0.0f;
+}
+
+void Translator::translateCoords(cv::Mat coords)
+{
+    static const double fx_d = 1.0 / 5.9421434211923247e+02;
+    static const double fy_d = 1.0 / 5.9104053696870778e+02;
+    static const double cx_d = 3.3930780975300314e+02;
+    static const double cy_d = 2.4273913761751615e+02;
+
+    //std::cout << fx_d << " " << depthToMeters(coords.at<float>(0, 2)) << " " << (coords.at<float>(0, 0) - cx_d) * depthToMeters(coords.at<float>(0, 2)) * fx_d << std::endl;
+
+    for(int i = 0; i<coords.rows; ++i){
+        double depth = depthToMeters(coords.at<float>(i, 2));
+        coords.at<float>(i, 0) = float((coords.at<float>(i, 0) - cx_d) * depth * fx_d);
+        coords.at<float>(i, 1) = float((coords.at<float>(i, 1) - cy_d) * depth * fy_d);
+        coords.at<float>(i, 2) = float(depth);
+    }
 }
 

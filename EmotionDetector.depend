@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1464354830 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\emotiondetector.cpp
+1468678569 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\emotiondetector.cpp
 	"EmotionDetector.h"
 	"Visualizer.h"
 	"FacialLandmarkDetector.h"
@@ -8,7 +8,7 @@
 	<iostream>
 	<opencv2/core.hpp>
 
-1466066635 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\emotiondetector.h
+1466975668 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\emotiondetector.h
 	<iostream>
 	"Emotion.h"
 	"Space.h"
@@ -20,6 +20,7 @@
 	<ScaleSolution.h>
 	<FilterSolution.h>
 	<Configuration.h>
+	<DimentionalityReducer.h>
 
 1460214791 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\emotion.h
 
@@ -110,7 +111,7 @@
 	<ModelRegistrator.h>
 	<opencv2/core.hpp>
 
-1461779867 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\icpmodelregistrator.cpp
+1467045300 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\icpmodelregistrator.cpp
 	"ICPModelRegistrator.h"
 	"opencv2/surface_matching/ppf_helpers.hpp"
 
@@ -124,7 +125,7 @@
 	"SimpleModelRegistrator.h"
 	<iostream>
 
-1464353114 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\pcadimentionalityreducer.cpp
+1467049311 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\pcadimentionalityreducer.cpp
 	"PCADimentionalityReducer.h"
 	"Translator.h"
 	<opencv/cv.h>
@@ -134,18 +135,18 @@
 	<DimentionalityReducer.h>
 	<opencv2/core.hpp>
 
-1466062925 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\translator.cpp
+1467317954 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\translator.cpp
 	"Translator.h"
 	<opencv/cv.h>
 	<iostream>
 
-1466062903 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\translator.h
+1467305118 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\translator.h
 	<opencv/cv.h>
 	<list>
 	<vector>
 	<Emotion.h>
 
-1466455919 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\main.cpp
+1468679387 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\main.cpp
 	<iostream>
 	<list>
 	<map>
@@ -169,6 +170,8 @@
 	<ReduceKnnClassifier.h>
 	<Translator.h>
 	<Configuration.h>
+	<iostream>
+	<fstream>
 
 1460364167 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\adaboostdimentionalityreducer.cpp
 	"AdaBoostDimentionalityReducer.h"
@@ -176,22 +179,21 @@
 1460364022 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\adaboostdimentionalityreducer.h
 	<DimentionalityReducer.h>
 
-1464353606 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\reduceknnclassifier.cpp
+1467045003 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\reduceknnclassifier.cpp
 	"ReduceKnnClassifier.h"
 	<Translator.h>
 	<list>
 	<iostream>
 	<fstream>
 
-1462714402 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\reduceknnclassifier.h
+1467044995 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\reduceknnclassifier.h
 	<Classifier.h>
-	<DimentionalityReducer.h>
 	<opencv2/ml.hpp>
 	<opencv2/highgui.hpp>
 	<Visualizer.h>
 	<Configuration.h>
 
-1460973395 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\classifier.h
+1466975450 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\classifier.h
 	<Emotion.h>
 	<FacesDifferencesDatabase.h>
 	<opencv2/core.hpp>
@@ -217,23 +219,26 @@
 	<list>
 	<opencv2/core.hpp>
 
-1462562999 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\adaboostclassifier.cpp
+1467055495 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\adaboostclassifier.cpp
 	"AdaBoostClassifier.h"
 	<opencv2/core.hpp>
 	<opencv2/ml.hpp>
 
-1462563046 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\adaboostclassifier.h
+1466975490 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\adaboostclassifier.h
 	<Classifier.h>
 	<Emotion.h>
 	<opencv2/core.hpp>
 	<opencv2/ml.hpp>
 
-1464347698 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\configuration.cpp
+1468682977 source:c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\src\configuration.cpp
 	"Configuration.h"
 	<time.h>
+	<windows.h>
+	<stdio.h>
 
-1464347665 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\configuration.h
+1468681896 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\configuration.h
 	<iostream>
+	<fstream>
 
 1464347264 c:\users\mary\documents\mary\9_semestr\magisterka\project\emotiondetector\include\scalesolution.h
 	<opencv2/core.hpp>

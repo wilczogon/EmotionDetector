@@ -3,7 +3,6 @@
 #ifndef EMOTIONDETECTOR_H
 #define EMOTIONDETECTOR_H
 #include <iostream>
-//#include <SFML/Graphics.hpp>
 #include "Emotion.h"
 #include "Space.h"
 #include "ModelRegistrator.h"
@@ -14,6 +13,7 @@
 #include <ScaleSolution.h>
 #include <FilterSolution.h>
 #include <Configuration.h>
+#include <DimentionalityReducer.h>
 
 
 class EmotionDetector
@@ -21,6 +21,7 @@ class EmotionDetector
     public:
         EmotionDetector(
                         ModelRegistrator* registrator,
+                        DimentionalityReducer* reducer,
                         Classifier* classifier,
                         ScaleSolution* scaleSolution = new ScaleSolution(1, 100.0),
                         FilterSolution* filterSolution = new FilterSolution(0.05, 0.95),
@@ -40,6 +41,7 @@ class EmotionDetector
         FilterSolution* filterSolution;
         FacesDifferencesDatabase* diffs;
         Configuration* conf;
+        DimentionalityReducer* reducer;
 };
 
 #endif // EMOTIONDETECTOR_H

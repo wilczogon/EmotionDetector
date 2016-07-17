@@ -2,7 +2,6 @@
 #define REDUCEKNNCLASSIFIER_H
 
 #include <Classifier.h>
-#include <DimentionalityReducer.h>
 #include <opencv2/ml.hpp>
 #include <opencv2/highgui.hpp>
 #include <Visualizer.h>
@@ -12,18 +11,15 @@
 class ReduceKnnClassifier : public Classifier
 {
     public:
-        ReduceKnnClassifier(DimentionalityReducer* reducer, int k, Configuration* conf = new Configuration());
+        ReduceKnnClassifier(int k, Configuration* conf = new Configuration());
         virtual ~ReduceKnnClassifier();
-        void initialize(FacesDifferencesDatabase* database);
+        void initialize(cv::Mat samples, cv::Mat responses);
         Emotion classify(cv::Mat vec);
-        //void visualize(FacesDifferencesDatabase* database, Visualizer* visualizer);
     protected:
     private:
         int k;
         cv::Ptr<cv::ml::KNearest> knn;
-        DimentionalityReducer* reducer;
         std::list<std::vector<float> > data;
-        bool saveVisualizationData;
         Configuration* configuration;
 };
 

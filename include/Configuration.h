@@ -2,6 +2,7 @@
 #define CONFIGURATION_H
 
 #include <iostream>
+#include <fstream>
 
 
 class Configuration
@@ -13,6 +14,7 @@ class Configuration
         std::string getDataSavePath();
         std::string getRunId();
         bool isTalkative();
+        std::ofstream open(std::string contentId);
     protected:
     private:
         std::string dataSavePath;

@@ -18,16 +18,18 @@ AdaBoostClassifier::AdaBoostClassifier(int weakCount, float weightTrimRate, int 
 
 AdaBoostClassifier::~AdaBoostClassifier()
 {
-    //dtor
+    //std::cout << "releasing" << std::endl;
+    boost.release();
 }
 
-void AdaBoostClassifier::initialize(FacesDifferencesDatabase* database){
-    cv::Mat samples;
-    cv::Mat responses;
-    std::vector<std::string> names;
-    database->getData(names, samples, responses);
+void AdaBoostClassifier::initialize(cv::Mat samples, cv::Mat responses){
+    //std::cout << "a1 " << samples.rows << " " << samples.cols << " " << std::endl;
     Ptr<cv::ml::TrainData> trainData = cv::ml::TrainData::create(samples, cv::ml::SampleTypes::ROW_SAMPLE, responses);
+    //std::cout << "b1 "  << responses.rows << " " << responses.cols << " " << std::endl;
     boost->train(trainData);
+    //std::cout << "c1" << std::endl;
+    trainData.release();
+    //std::cout << "d1" << std::endl;
 }
 
 Emotion AdaBoostClassifier::classify(Mat vec){

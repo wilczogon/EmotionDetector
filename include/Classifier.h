@@ -10,7 +10,7 @@ class Classifier
     public:
         Classifier(){};
         virtual ~Classifier(){};
-        virtual void initialize(FacesDifferencesDatabase* database) = 0;
+        virtual void initialize(cv::Mat samples, cv::Mat responses) = 0;
         virtual Emotion classify(cv::Mat vec) = 0;
     protected:
     private:

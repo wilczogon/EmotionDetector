@@ -8,7 +8,7 @@ ICPModelRegistrator::ICPModelRegistrator()
 
 ICPModelRegistrator::~ICPModelRegistrator()
 {
-    //dtor
+    // release icp
 }
 
 cv::Mat ICPModelRegistrator::registerModel(cv::Mat basicModel, cv::Mat registeredModel){

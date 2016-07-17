@@ -44,7 +44,6 @@
 		<Unit filename="include/FacesDifferencesDatabase.h" />
 		<Unit filename="include/FacesImagesDatabase.h" />
 		<Unit filename="include/FacialLandmarkDetector.h" />
-		<Unit filename="include/FileStream.h" />
 		<Unit filename="include/FilterSolution.h" />
 		<Unit filename="include/ICPModelRegistrator.h" />
 		<Unit filename="include/ModelRegistrator.h" />
@@ -62,7 +61,6 @@
 		<Unit filename="src/EmotionDetector.cpp" />
 		<Unit filename="src/FacesDifferencesDatabase.cpp" />
 		<Unit filename="src/FacesImagesDatabase.cpp" />
-		<Unit filename="src/FileStream.cpp" />
 		<Unit filename="src/FilterSolution.cpp" />
 		<Unit filename="src/ICPModelRegistrator.cpp" />
 		<Unit filename="src/ModelRegistrator.cpp" />
