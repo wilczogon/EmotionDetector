@@ -14,7 +14,7 @@ class Configuration
         std::string getDataSavePath();
         std::string getRunId();
         bool isTalkative();
-        std::ofstream open(std::string contentId);
+        std::ofstream* open(std::string contentId);
     protected:
     private:
         std::string dataSavePath;

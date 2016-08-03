@@ -37,9 +37,9 @@ bool Configuration::isTalkative(){
     return talkative;
 }
 
-std::ofstream Configuration::open(std::string contentId){
-    std::ofstream file;
-    std::string filename = contentId + "_" + contentId + ".txt";
-    file.open(getDataSavePath() + "\\" + filename);
+std::ofstream* Configuration::open(std::string contentId){
+    std::ofstream* file;
+    std::string filename = contentId + "_" + runId + ".txt";
+    file = new std::ofstream(getDataSavePath() + "\\" + filename);
     return file;
 }

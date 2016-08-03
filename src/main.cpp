@@ -14,7 +14,6 @@
 #include <AdaBoostClassifier.h>
 #include <sys/stat.h>
 #include <Visualizer.h>
-#include <png.h>
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv/highgui.h>
@@ -95,16 +94,16 @@ FacesImagesDatabase* load(FacialLandmarkDetector* fdet,std::string metadataPath,
             cv::hconcat(facePoints, z, facePoints);
             Translator::translateCoords(facePoints);
 
-            std::ofstream file = conf->open("FacePoints");
+            std::ofstream* file = conf->open("FacePoints");
             for(int i = 0; i<facePoints.rows; ++i) {
                 for(int j = 0; j<facePoints.cols; ++j) {
-                    file << facePoints.at<float>(i, j);
+                    *file << facePoints.at<float>(i, j);
                     if(j != facePoints.cols-1)
-                        file << ",";
+                        *file << ",";
                 }
-                file << std::endl;
+                *file << std::endl;
             }
-            file.close();
+            delete file;
 
             emotionPersonDataMap->add(filePath, record[0], Translator::toEmotion(record[1]), facePoints);
         }
@@ -120,22 +119,22 @@ FacesImagesDatabase* load(FacialLandmarkDetector* fdet,std::string metadataPath,
 int main(){
     try{
         FacialLandmarkDetector* fdet = new DlibFacialLandmarkDetector();
-        Configuration* conf = new Configuration("C:\\Users\\Mary\\Documents\\Mary\\9_semestr\\magisterka\\project\\visualization_data");
+        Configuration* conf = new Configuration("C:\\Users\\Mary\\Documents\\projekty\\na_uczelnie\\EmotionDetector\\visualization_data");
 
-        FacesImagesDatabase* database = load(fdet, "C:\\Users\\Mary\\Documents\\Mary\\9_semestr\\magisterka\\project\\metadata_training.csv", "C:\\Users\\Mary\\Desktop\\attachments", true, conf);
-        FacesImagesDatabase* testDatabase = load(fdet, "C:\\Users\\Mary\\Documents\\Mary\\9_semestr\\magisterka\\project\\metadata_test.csv", "C:\\Users\\Mary\\Desktop\\attachments", true, conf);
+        FacesImagesDatabase* database = load(fdet, "C:\\Users\\Mary\\Documents\\dane\\obrazy\\faces\\metadata_training_simple.csv", "C:\\Users\\Mary\\Documents\\dane\\obrazy\\faces\\attachments", true, conf);
+        FacesImagesDatabase* testDatabase = load(fdet, "C:\\Users\\Mary\\Documents\\dane\\obrazy\\faces\\metadata_test.csv", "C:\\Users\\Mary\\Documents\\dane\\obrazy\\faces\\attachments", true, conf);
 
         std::cout << "\nAll images successfully loaded.\n";
 
-        std::ofstream file = conf->open("AdaBoost");
+        std::ofstream* file = conf->open("AdaBoost");
 
         std::cout << "AdaBoost" << std::endl << "weakCount, weightTrimRate, maxDepth, useSurrogates, n, result" << std::endl;
-        file << "AdaBoost" << std::endl << "weakCount, weightTrimRate, maxDepth, useSurrogates, n, result" << std::endl;
+        *file << "AdaBoost" << std::endl << "weakCount, weightTrimRate, maxDepth, useSurrogates, n, result" << std::endl;
         for(int n = 1; n < 8; n+=1)
             for(int maxDepth = 15; maxDepth < 20; maxDepth += 1){
                 float weightTrimRate = 0.1;
                 while(weightTrimRate < 1.0){
-                    for(int weakCount = 100; weakCount < 100000; weakCount*=10){
+                    for(int weakCount = 100; weakCount < 100000; weakCount*=100){
 
                         EmotionDetector* detector = new EmotionDetector(new ICPModelRegistrator(),
                                                                         new PCADimentionalityReducer(n),
@@ -146,25 +145,25 @@ int main(){
                         detector->initialize(database, Emotion::neutral);
                         float res = detector->test(testDatabase);
                         std::cout << weakCount << ", " << weightTrimRate << ", " << maxDepth << ", " << n << ", " << res << std::endl;
-                        file << weakCount << ", " << weightTrimRate << ", " << maxDepth << ", " << n << ", " << res << std::endl;
+                        *file << weakCount << ", " << weightTrimRate << ", " << maxDepth << ", " << n << ", " << res << std::endl;
                         delete detector;
                     }
                     weightTrimRate+=0.1;
                 }
             }
 
-        file.close();
+        delete file;
 
         file = conf->open("ReduceKnn");
 
         std::cout << "Reduce Knn" << std::endl << "lowerThreshold, upperThreshold, n, k, result" << std::endl;
-        file << "Reduce Knn" << std::endl << "lowerThreshold, upperThreshold, n, k, result" << std::endl;
+        *file << "Reduce Knn" << std::endl << "lowerThreshold, upperThreshold, n, k, result" << std::endl;
         float lowerThreshold = 0.0;
         float upperThreshold = 0.9;
         while(lowerThreshold <= 0.5){
             while(upperThreshold > 0.5){
-                for(int k = 1; k<15; ++k)
-                    for(int n = 2; n<20; ++n){
+                for(int k = 1; k<15; k+=5)
+                    for(int n = 2; n<20; n+=5){
                         EmotionDetector* detector = new EmotionDetector(new ICPModelRegistrator(),
                                                                         new PCADimentionalityReducer(n),
                                                                         new ReduceKnnClassifier(k, conf),
@@ -174,7 +173,7 @@ int main(){
                         detector->initialize(database, Emotion::neutral);
                         float res = detector->test(testDatabase);
                         std::cout << lowerThreshold << ", " << upperThreshold << ", " << n << ", " << k << ", " << res << std::endl;
-                        file << lowerThreshold << ", " << upperThreshold << ", " << n << ", " << k << ", " << res << std::endl;
+                        *file << lowerThreshold << ", " << upperThreshold << ", " << n << ", " << k << ", " << res << std::endl;
                         delete detector;
                     }
 
@@ -183,7 +182,7 @@ int main(){
             lowerThreshold += 0.01;
         }
 
-        file.close();
+        delete file;
 
         return 0;
     } catch(const char* msg){
