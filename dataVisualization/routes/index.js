@@ -46,26 +46,48 @@ router.get('/', function(req, res, next) {
 router.get('/data', function(req, res, next) {
   var dataDirectory = req.query.directory;
   var dataPath = process.argv[2];
-  var filesToRead = ['ReduceKnn', 'AdaBoost', 'FacePoints'];
-  var errors = [];
   
   var result = {};
+  var errors = [];
   
-  filesToRead.forEach(function (nameEl) {
-    var fileName = `${dataPath}/${dataDirectory}/${nameEl}_${dataDirectory}.txt`;
-    console.log(`Preparing for processing file: ${fileName}...`);
-    fs.readFile(`${dataPath}/${dataDirectory}/${nameEl}_${dataDirectory}.txt`, 'utf8', function (err,data) {
+  fs.readFile(`${dataPath}/${dataDirectory}/BestResult_${dataDirectory}.txt`, 'utf8', function (err,data) {
       if (err) {
         console.log(err);
 		errors.push(err);
-      }
-      result[nameEl] = json2plotly(csv2json(data));
-	  console.log(`Finished processing file: ${fileName}`);
+      } else {
+		var bestResult = json2plotly(csv2json(data));
+		var filesToRead = {
+			'Knn': 'Knn',
+			'AdaBoost': 'AdaBoost',
+			'KnnClusters_Knn': `KnnClusters_Knn_${bestResult.data.minId[0]}`,
+			'TestResult_Knn': `TestResult_Knn_${bestResult.data.minId[0]}`,
+			'TestResult_AdaBoost': `TestResult_AdaBoost_${bestResult.data.minId[1]}`
+		};
+		  
+		Object.keys(filesToRead).forEach(function (nameEl) {
+			var fileName = `${dataPath}/${dataDirectory}/${filesToRead[nameEl]}_${dataDirectory}.txt`;
+			console.log(`Preparing for processing file: ${fileName}...`);
+			fs.readFile(fileName, 'utf8', function (err,data) {
+			  if (err) {
+				console.log(err);
+				errors.push(err);
+			  } else {
+				console.log(`Processing file: ${fileName}`);
+				try{
+					result[nameEl] = json2plotly(csv2json(data));
+					console.log(`Finished processing file: ${fileName}`);
+				} catch(err) {
+					console.log(err);
+					errors.push(err);
+				}
+			  }
+			});
+		});
+	  }
     });
-  });
   
   var intervalId = setInterval(function () {
-	  if(filesToRead.length === Object.keys(result).length + errors.length) {
+	  if(5 === Object.keys(result).length + errors.length) {
 		  clearInterval(intervalId);
 		  res.json(result);
 	  }

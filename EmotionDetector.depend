@@ -253,12 +253,12 @@
 	"FilterSolution.h"
 	<math.h>
 
-1469141028 source:c:\users\mary\documents\projekty\na_uczelnie\emotiondetector\src\adaboostclassifier.cpp
+1473523435 source:c:\users\mary\documents\projekty\na_uczelnie\emotiondetector\src\adaboostclassifier.cpp
 	"AdaBoostClassifier.h"
 	<opencv2/core.hpp>
 	<opencv2/ml.hpp>
 
-1469141026 c:\users\mary\documents\projekty\na_uczelnie\emotiondetector\include\adaboostclassifier.h
+1473523425 c:\users\mary\documents\projekty\na_uczelnie\emotiondetector\include\adaboostclassifier.h
 	<Classifier.h>
 	<Emotion.h>
 	<opencv2/core.hpp>
@@ -325,16 +325,14 @@
 	<vector>
 	<Emotion.h>
 
-1469141028 source:c:\users\mary\documents\projekty\na_uczelnie\emotiondetector\src\emotiondetector.cpp
+1473602029 source:c:\users\mary\documents\projekty\na_uczelnie\emotiondetector\src\emotiondetector.cpp
 	"EmotionDetector.h"
-	"Visualizer.h"
-	"FacialLandmarkDetector.h"
 	"ModelRegistrator.h"
 	<Translator.h>
 	<iostream>
 	<opencv2/core.hpp>
 
-1469141026 c:\users\mary\documents\projekty\na_uczelnie\emotiondetector\include\emotiondetector.h
+1473492184 c:\users\mary\documents\projekty\na_uczelnie\emotiondetector\include\emotiondetector.h
 	<iostream>
 	"Emotion.h"
 	"Space.h"
@@ -366,7 +364,7 @@
 1469141026 c:\users\mary\documents\projekty\na_uczelnie\emotiondetector\include\scalesolution.h
 	<opencv2/core.hpp>
 
-1469141026 c:\users\mary\documents\projekty\na_uczelnie\emotiondetector\include\filtersolution.h
+1471268501 c:\users\mary\documents\projekty\na_uczelnie\emotiondetector\include\filtersolution.h
 	<opencv2/core.hpp>
 
 1469141026 c:\users\mary\documents\projekty\na_uczelnie\emotiondetector\include\visualizer.h
@@ -384,9 +382,10 @@
 	"FacesImagesDatabase.h"
 	<opencv2/core.hpp>
 
-1469141028 source:c:\users\mary\documents\projekty\na_uczelnie\emotiondetector\src\filtersolution.cpp
+1471269550 source:c:\users\mary\documents\projekty\na_uczelnie\emotiondetector\src\filtersolution.cpp
 	"FilterSolution.h"
 	<math.h>
+	<iostream>
 
 1469141028 source:c:\users\mary\documents\projekty\na_uczelnie\emotiondetector\src\icpmodelregistrator.cpp
 	"ICPModelRegistrator.h"
@@ -398,7 +397,7 @@
 	<opencv2/opencv_modules.hpp>
 	<opencv2/surface_matching.hpp>
 
-1469406325 source:c:\users\mary\documents\projekty\na_uczelnie\emotiondetector\src\main.cpp
+1473773407 source:c:\users\mary\documents\projekty\na_uczelnie\emotiondetector\src\main.cpp
 	<iostream>
 	<list>
 	<map>
@@ -414,15 +413,17 @@
 	<FacesImagesDatabase.h>
 	<AdaBoostClassifier.h>
 	<sys/stat.h>
-	<Visualizer.h>
 	<opencv2/core.hpp>
 	<opencv2/imgcodecs.hpp>
+	<opencv2/ml.hpp>
 	<opencv/highgui.h>
-	<ReduceKnnClassifier.h>
+	<KnnClassifier.h>
 	<Translator.h>
 	<Configuration.h>
 	<iostream>
 	<fstream>
+	<math.h>
+	<stdlib.h>
 
 1469141026 c:\users\mary\documents\projekty\na_uczelnie\emotiondetector\include\pcadimentionalityreducer.h
 	<DimentionalityReducer.h>
@@ -474,4 +475,18 @@
 	<iostream>
 	"Visualizer.h"
 	<Translator.h>
+
+1473777612 source:c:\users\mary\documents\projekty\na_uczelnie\emotiondetector\src\knnclassifier.cpp
+	<KnnClassifier.h>
+	<Translator.h>
+	<list>
+	<iostream>
+	<fstream>
+
+1473492837 c:\users\mary\documents\projekty\na_uczelnie\emotiondetector\include\knnclassifier.h
+	<Classifier.h>
+	<opencv2/ml.hpp>
+	<opencv2/highgui.hpp>
+	<Visualizer.h>
+	<Configuration.h>
 

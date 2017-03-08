@@ -8,11 +8,11 @@
 #include <Configuration.h>
 
 
-class ReduceKnnClassifier : public Classifier
+class KnnClassifier : public Classifier
 {
     public:
-        ReduceKnnClassifier(int k, Configuration* conf = new Configuration());
-        virtual ~ReduceKnnClassifier();
+        KnnClassifier(int k, Configuration* conf = new Configuration(), std::string id = "");
+        virtual ~KnnClassifier();
         void initialize(cv::Mat samples, cv::Mat responses);
         Emotion classify(cv::Mat vec);
     protected:
@@ -21,6 +21,7 @@ class ReduceKnnClassifier : public Classifier
         cv::Ptr<cv::ml::KNearest> knn;
         std::list<std::vector<float> > data;
         Configuration* configuration;
+        std::string id;
 };
 
 #endif // PCAKNNCLASSIFIER_H

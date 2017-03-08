@@ -46,9 +46,9 @@
 		<Unit filename="include/FacialLandmarkDetector.h" />
 		<Unit filename="include/FilterSolution.h" />
 		<Unit filename="include/ICPModelRegistrator.h" />
+		<Unit filename="include/KnnClassifier.h" />
 		<Unit filename="include/ModelRegistrator.h" />
 		<Unit filename="include/PCADimentionalityReducer.h" />
-		<Unit filename="include/ReduceKnnClassifier.h" />
 		<Unit filename="include/ScaleSolution.h" />
 		<Unit filename="include/SimpleModelRegistrator.h" />
 		<Unit filename="include/Space.h" />
@@ -63,9 +63,9 @@
 		<Unit filename="src/FacesImagesDatabase.cpp" />
 		<Unit filename="src/FilterSolution.cpp" />
 		<Unit filename="src/ICPModelRegistrator.cpp" />
+		<Unit filename="src/KnnClassifier.cpp" />
 		<Unit filename="src/ModelRegistrator.cpp" />
 		<Unit filename="src/PCADimentionalityReducer.cpp" />
-		<Unit filename="src/ReduceKnnClassifier.cpp" />
 		<Unit filename="src/ScaleSolution.cpp" />
 		<Unit filename="src/SimpleModelRegistrator.cpp" />
 		<Unit filename="src/Space.cpp" />

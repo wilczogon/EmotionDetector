@@ -1,6 +1,4 @@
 #include "EmotionDetector.h"
-#include "Visualizer.h"
-#include "FacialLandmarkDetector.h"
 #include "ModelRegistrator.h"
 #include <Translator.h>
 #include <iostream>
@@ -59,18 +57,27 @@ Emotion EmotionDetector::classify(cv::Mat basicExpression, cv::Mat specialExpres
     return classifier->classify(reducer->reduceDimentionality(countDifference(basicExpression, specialExpression)));
 }
 
-float EmotionDetector::test(FacesImagesDatabase* testDatabase){
+float EmotionDetector::test(FacesImagesDatabase* testDatabase, std::string id){
     int correctlyClassified = 0;
     int incorrectlyClassified = 0;
 
     FacesDifferencesDatabase* testDiffs = prepareDiffs(testDatabase, diffs->getBasicEmotion());
 
+    std::ofstream* file = conf->open("TestResult_" + id);
+    *file << "actual emotion, recognized emotion" << std::endl;
+
     for(auto emotion: testDiffs->getEmotions()){
+        if(emotion == diffs->getBasicEmotion())
+            continue;
         std::vector<std::string> names = testDiffs->getNames(emotion);
         for(int rowNo = 0; rowNo < testDiffs->get(emotion).rows; ++rowNo){
             cv::Mat diff = testDiffs->get(emotion).row(rowNo);
 
-            if(classifier->classify(reducer->reduceDimentionality(diff)) == emotion)
+            int classifiedEmotion = classifier->classify(reducer->reduceDimentionality(diff));
+
+            *file << emotion << ", " << classifiedEmotion << std::endl;
+
+            if(classifiedEmotion == emotion)
                 correctlyClassified++;
             else
                 incorrectlyClassified++;
@@ -80,6 +87,7 @@ float EmotionDetector::test(FacesImagesDatabase* testDatabase){
     }
 
     delete testDiffs;
+    delete file;
 
     float result = incorrectlyClassified/float(correctlyClassified + incorrectlyClassified);
 
@@ -89,14 +97,27 @@ float EmotionDetector::test(FacesImagesDatabase* testDatabase){
     return result;
 }
 
-FacesDifferencesDatabase* EmotionDetector::prepareDiffs(FacesImagesDatabase* database, Emotion basicEmotion){
-    FacesDifferencesDatabase* diffs = new FacesDifferencesDatabase(basicEmotion);
+float EmotionDetector::test(FacesImagesDatabase* testDatabase){
+    test(testDatabase, "");
+}
 
+FacesDifferencesDatabase* EmotionDetector::prepareDiffs(FacesImagesDatabase* database, Emotion basicEmotion){
     if(database->getEmotions().size() == 0)
         throw "Empty data set.";
 
     if(database->getEmotions().find(basicEmotion) == database->getEmotions().end())
         throw "Empty set of basic expressions.";
+
+    cv::Mat tmp;
+
+    for(auto personId: database->getPersonIds())
+        for(auto emotion: database->getEmotions())
+            for(auto specialData: database->get(personId, emotion))
+                for(auto basicData: database->get(personId, basicEmotion))
+                    tmp.push_back(countDifference(basicData.second, specialData.second));
+
+    filterSolution->initialize(tmp);
+    FacesDifferencesDatabase* diffs = new FacesDifferencesDatabase(basicEmotion);
 
     for(auto personId: database->getPersonIds())
         for(auto emotion: database->getEmotions())

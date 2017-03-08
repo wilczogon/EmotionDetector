@@ -5,31 +5,25 @@
 
 using namespace cv;
 
-AdaBoostClassifier::AdaBoostClassifier(int weakCount, float weightTrimRate, int maxDepth, bool useSurrogates)
+AdaBoostClassifier::AdaBoostClassifier(cv::ml::Boost::Types type, int weakCount, float weightTrimRate, int maxDepth, bool useSurrogates)
 {
     boost = cv::ml::Boost::create();
-    boost->setBoostType(cv::ml::Boost::REAL);
+    boost->setBoostType(type);
     boost->setWeakCount(weakCount);
     boost->setWeightTrimRate(weightTrimRate);
-    boost->setMaxDepth(maxDepth);
+    boost->setMaxDepth(maxDepth); // <- crashuje
     boost->setUseSurrogates(useSurrogates);
-    boost->setPriors(Mat());
 }
 
 AdaBoostClassifier::~AdaBoostClassifier()
 {
-    //std::cout << "releasing" << std::endl;
     boost.release();
 }
 
 void AdaBoostClassifier::initialize(cv::Mat samples, cv::Mat responses){
-    //std::cout << "a1 " << samples.rows << " " << samples.cols << " " << std::endl;
     Ptr<cv::ml::TrainData> trainData = cv::ml::TrainData::create(samples, cv::ml::SampleTypes::ROW_SAMPLE, responses);
-    //std::cout << "b1 "  << responses.rows << " " << responses.cols << " " << std::endl;
     boost->train(trainData);
-    //std::cout << "c1" << std::endl;
     trainData.release();
-    //std::cout << "d1" << std::endl;
 }
 
 Emotion AdaBoostClassifier::classify(Mat vec){

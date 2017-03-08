@@ -1,42 +1,44 @@
-#include "ReduceKnnClassifier.h"
+#include <KnnClassifier.h>
 #include <Translator.h>
 #include <list>
 #include <iostream>
 #include <fstream>
 
-ReduceKnnClassifier::ReduceKnnClassifier(int k, Configuration* conf)
+KnnClassifier::KnnClassifier(int k, Configuration* conf, std::string id)
 {
     this->k = k;
     knn = cv::ml::KNearest::create();
     this->configuration = conf;
+    this->id = id;
 }
 
-ReduceKnnClassifier::~ReduceKnnClassifier()
+KnnClassifier::~KnnClassifier()
 {
     knn.release();
 }
 
-void ReduceKnnClassifier::initialize(cv::Mat samples, cv::Mat responses){
+void KnnClassifier::initialize(cv::Mat samples, cv::Mat responses){
     knn->train(samples, cv::ml::ROW_SAMPLE, responses);
 
     if(configuration->saveVisualizationData()){
-        std::ofstream file;
-        std::string filename = "ReduceKnnClusters_" + configuration->getRunId() + ".txt";
-        file.open(configuration->getDataSavePath() + "\\" + filename);
+        std::ofstream* file = configuration->open("KnnClusters_" + id);
+        for(int k = 0; k < samples.cols; ++k)
+            *file << "x" << k << ", ";
+        *file << "expression" << std::endl;
         for(int i = 0; i < samples.rows; i++){
             for(int j = 0; j < samples.cols; j++)
-                file << samples.at<float>(i, j) << ";";
-            file << responses.at<int>(0, i) << std::endl;
+                *file << samples.at<float>(i, j) << ",";
+            *file << responses.at<int>(0, i) << std::endl;
         }
 
-        file.close();
+        delete file;
 
         if(configuration->isTalkative())
-            std::cout << "Visualization data saved as " << filename << std::endl;
+            std::cout << "Visualization data saved as KnnClusters" << std::endl;
     }
 }
 
-Emotion ReduceKnnClassifier::classify(cv::Mat vec){
+Emotion KnnClassifier::classify(cv::Mat vec){
     cv::Mat response, dist;
     knn->findNearest(vec, k, cv::noArray(), response, dist);
 
@@ -49,16 +51,14 @@ Emotion ReduceKnnClassifier::classify(cv::Mat vec){
     }
 
     if(configuration->saveVisualizationData()){
-        std::ofstream file;
-        std::string filename = "ReduceKnnClassify_" + configuration->getRunId() + ".txt";
-        file.open(configuration->getDataSavePath() + "\\" + filename);
+        std::ofstream* file = configuration->open("KnnClassify");
         for(int i = 0; i < vec.rows; i++){
             for(int j = 0; j < vec.cols; j++)
-                file << vec.at<float>(i, j) << ";";
-            file << response.at<float>(0, maxIndex) << std::endl;
+                *file << vec.at<float>(i, j) << ",";
+            *file << response.at<float>(0, maxIndex) << std::endl;
         }
 
-        file.close();
+        delete file;
     }
 
     return (Emotion)(int)response.at<float>(0, maxIndex);

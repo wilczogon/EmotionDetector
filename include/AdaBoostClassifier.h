@@ -11,7 +11,7 @@ using namespace cv;
 class AdaBoostClassifier: public Classifier
 {
     public:
-        AdaBoostClassifier(int weakCount, float weightTrimRate, int maxDepth, bool useSurrogates);
+        AdaBoostClassifier(cv::ml::Boost::Types type, int weakCount, float weightTrimRate, int maxDepth, bool useSurrogates);
         virtual ~AdaBoostClassifier();
         virtual void initialize(cv::Mat samples, cv::Mat responses);
         virtual Emotion classify(Mat vec);
